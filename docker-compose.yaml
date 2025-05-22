@@ -5,7 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: spring_app
+    container_name: backend
     restart: on-failure
     depends_on:
       - postgres
@@ -21,13 +21,13 @@ services:
   # === DATABASE ===
   postgres:
     image: postgres:16.0
-    container_name: postgresql
+    container_name: db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - "55001:5432"
+      - "55004:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -121,6 +121,20 @@ services:
         airflow db migrate &&
         airflow users create --username admin --password admin --firstname admin --lastname admin --role Admin --email admin@example.com
       "
+    networks:
+      - project_network
+
+  frontend:
+    working_dir: /app
+    build:
+      context: ./frontend/frontend
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./frontend/frontend:/app
+    ports:
+      - "5173:5173"
     networks:
       - project_network
 
