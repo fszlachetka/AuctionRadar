@@ -1,0 +1,14 @@
+
+
+POST http://localhost:8080/backend/rest/user
+Content-Type: application/json
+
+
+{
+  "login": "janek123",
+  "passwd": "sekret123"
+}
+
+####
+
+GET localhost:8080/backend/rest/janek123

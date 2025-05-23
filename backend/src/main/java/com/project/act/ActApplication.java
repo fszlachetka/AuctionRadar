@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ActApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ActApplication.class, args);
+        System.out.println("starting app");
 	}
 
 }

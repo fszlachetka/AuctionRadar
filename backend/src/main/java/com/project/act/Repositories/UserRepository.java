@@ -4,4 +4,9 @@ import com.project.act.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsByLogin(String login);
+
+    void deleteUserByLogin(String login);
+
+    User findByLogin(String login);
 }
