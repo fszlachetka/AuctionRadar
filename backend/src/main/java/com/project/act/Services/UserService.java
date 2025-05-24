@@ -9,6 +9,8 @@ import com.project.act.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -34,12 +36,13 @@ public class UserService {
     }
 
     public UserDTO getUserByLogin(String login){
-        if(!userRepository.existsByLogin(login)){
+        Optional<User> user = userRepository.findByLogin(login);
+        if(user.isEmpty()){
             throw new UserNotFoundException(login);
         }
-        User user = userRepository.findByLogin(login);
-        return UserMapper.toDTO(user);
+        return UserMapper.toDTO(user.get());
     }
+
 
 
 }

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class UserRestControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<Object> bankNotFoundHandler(RuntimeException e) {
-        return new ResponseEntity<>("user not found", HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
+    public final ResponseEntity<Object> userNotFoundHandler(RuntimeException e) {
+        return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
