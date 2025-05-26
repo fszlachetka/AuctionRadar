@@ -11,4 +11,4 @@ Content-Type: application/json
 
 ####
 
-GET localhost:8080/backend/rest/janek123
+GET localhost:8080/backend/rest/user/janek123
