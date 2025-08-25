@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/backend/rest")
 public class UserRestController {
 

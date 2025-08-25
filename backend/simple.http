@@ -11,4 +11,31 @@ Content-Type: application/json
 
 ####
 
-GET localhost:8080/backend/rest/janek123
+GET localhost:8080/backend/rest/user/janek123
+
+####
+
+
+POST http://localhost:8080/api/mieszkania
+Content-Type: application/json
+
+{
+  "kodPocztowy": "00-001",
+  "miasto": "Warszawa",
+  "ulica": "Marszałkowska",
+  "numer": "10",
+  "numerMieszkania": "15",
+  "nrDzialki": "123/45",
+  "nrKsiegiWieczystej": "WA1M/00012345/6",
+  "rozmiar": 55.5,
+  "pokoje": 3,
+  "pietro": 2,
+  "piwnica": true,
+  "cena": 550000.0,
+  "wadium": 10000.0,
+  "terminOgledzin": "2025-09-15T14:00:00"
+}
+
+###
+GET http://localhost:8080/api/mieszkania
+

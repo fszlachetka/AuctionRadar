@@ -1,8 +1,14 @@
 FROM openjdk:17
 LABEL maintainer="olgierd.zygmunt2003@gmail.com"
-VOLUME /tmp
+
+# Ustaw katalog roboczy
+WORKDIR /app
+
+# Najpierw kopiujemy plik z sumą kontrolną, żeby Docker wiedział, że JAR się zmienił
+# Jeśli zmieni się zawartość jar-a, checksum też się zmieni i warstwa COPY zostanie odświeżona
+ADD target/backend-1.0.0.jar backend.jar
+RUN sha1sum backend.jar > backend.jar.sha1
+
 EXPOSE 8080
-ARG JAR_FILE=target/backend-1.0.0.jar
-ADD ${JAR_FILE} app.jar
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+ENTRYPOINT ["java","-jar","/app/backend.jar"]
