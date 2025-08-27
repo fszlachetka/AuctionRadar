@@ -1,9 +1,12 @@
 package com.project.act.Services;
 
 import com.project.act.DTOs.MieszkanieCreateDTO;
+import com.project.act.DTOs.MieszkanieFilterDTO;
 import com.project.act.DTOs.MieszkanieGetDTO;
 import com.project.act.Entities.Mieszkanie;
 import com.project.act.Repositories.MieszkanieRepository;
+import com.project.act.Specs.MieszkanieSpecBuilder;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,13 +42,12 @@ public class MieszkanieService {
         );
     }
 
-    public List<MieszkanieGetDTO> getAllMieszkania() {
+    public List<MieszkanieGetDTO> getAllMieszkanie() {
         return mieszkanieRepository.findAll()
                 .stream()
                 .map(this::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
-
     public MieszkanieGetDTO createMieszkanie(MieszkanieCreateDTO dto) {
         Mieszkanie mieszkanie = new Mieszkanie();
         mieszkanie.setKodPocztowy(dto.getKodPocztowy());
@@ -66,4 +68,34 @@ public class MieszkanieService {
         Mieszkanie saved = mieszkanieRepository.save(mieszkanie);
         return mapToResponseDTO(saved);
     }
+
+    public List<MieszkanieGetDTO> filterAndGetMieszkania(MieszkanieFilterDTO mieszkanieFilterDTO){
+        Specification<Mieszkanie> spec = MieszkanieSpecBuilder.builder()
+                .withKodPocztowy(mieszkanieFilterDTO.getKodPocztowy())
+                .withMiasto(mieszkanieFilterDTO.getMiasto())
+                .withNumer(mieszkanieFilterDTO.getNumer())
+                .withNumerMieszkania(mieszkanieFilterDTO.getNumerMieszkania())
+                .withNumerDzialki(mieszkanieFilterDTO.getNrDzialki())
+                .withNrKsiegiWieczystej(mieszkanieFilterDTO.getNrKsiegiWieczystej())
+                .withPiwnica(mieszkanieFilterDTO.getHasPiwinca())
+                .withPrawo(mieszkanieFilterDTO.getPrawo())
+                .withUlica(mieszkanieFilterDTO.getUlica())
+                .withMaxPietro(mieszkanieFilterDTO.getMaxPietro())
+                .withMinPietro(mieszkanieFilterDTO.getMinPietro())
+                .withMaxPokoje(mieszkanieFilterDTO.getMaxPokoje())
+                .withMinPokoje(mieszkanieFilterDTO.getMinPokoje())
+                .withMaxRozmiar(mieszkanieFilterDTO.getMaxRozmiar())
+                .withMinRozmiar(mieszkanieFilterDTO.getMinRozmiar())
+                .withMaxPrice(mieszkanieFilterDTO.getMaxCena())
+                .withMinPrice(mieszkanieFilterDTO.getMinCena())
+                .withMaxWadium(mieszkanieFilterDTO.getMaxWadium())
+                .withMinWadium(mieszkanieFilterDTO.getMinWadium())
+                .getSpec();
+
+        return mieszkanieRepository.findAll(spec)
+                .stream()
+                .map(this::mapToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,11 +1,9 @@
 package com.project.act.DTOs;
 
-import com.project.act.Entities.Obserwowane;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +22,7 @@ public class MieszkanieCreateDTO {
 
     private String nrKsiegiWieczystej;
 
-    private Integer rozmiar;
+    private Double rozmiar;
 
     private Integer pokoje;
 
@@ -32,9 +30,9 @@ public class MieszkanieCreateDTO {
 
     private Boolean piwnica;
 
-    private Integer cena;
+    private Double cena;
 
-    private Integer wadium;
+    private Double wadium;
 
     private String prawo;
 

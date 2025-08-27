@@ -41,13 +41,13 @@ public class Mieszkanie {
     private String nrKsiegiWieczystej;
 
     @Column(name="cena")
-    private Integer cena;
+    private Double cena;
 
     @Column(name="wadium")
-    private Integer wadium;
+    private Double wadium;
 
     @Column(name="rozmiar")
-    private Integer rozmiar;
+    private Double rozmiar;
 
     @Column(name="pokoje")
     private Integer pokoje;

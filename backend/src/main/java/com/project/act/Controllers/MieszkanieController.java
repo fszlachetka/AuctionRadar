@@ -1,6 +1,7 @@
 package com.project.act.Controllers;
 
 import com.project.act.DTOs.MieszkanieCreateDTO;
+import com.project.act.DTOs.MieszkanieFilterDTO;
 import com.project.act.DTOs.MieszkanieGetDTO;
 import com.project.act.Services.MieszkanieService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,14 @@ public class MieszkanieController {
 
     @GetMapping
     public ResponseEntity<List<MieszkanieGetDTO>> getAllMieszkania() {
-        return ResponseEntity.ok(mieszkanieService.getAllMieszkania());
+        return ResponseEntity.ok(mieszkanieService.getAllMieszkanie());
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<MieszkanieGetDTO>> filterAndGetMieszkania(@RequestBody MieszkanieFilterDTO dto){
+        List<MieszkanieGetDTO> result = mieszkanieService.filterAndGetMieszkania(dto);
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping

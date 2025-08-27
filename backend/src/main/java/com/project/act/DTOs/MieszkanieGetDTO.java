@@ -24,7 +24,7 @@ public class MieszkanieGetDTO {
 
     private String nrKsiegiWieczystej;
 
-    private Integer rozmiar;
+    private Double rozmiar;
 
     private Integer pokoje;
 
@@ -32,9 +32,9 @@ public class MieszkanieGetDTO {
 
     private Boolean piwnica;
 
-    private Integer cena;
+    private Double cena;
 
-    private Integer wadium;
+    private Double wadium;
 
     private String prawo;
 
