@@ -5,7 +5,7 @@ import com.project.act.DTOs.MieszkanieFilterDTO;
 import com.project.act.DTOs.MieszkanieGetDTO;
 import com.project.act.Entities.Mieszkanie;
 import com.project.act.Repositories.MieszkanieRepository;
-import com.project.act.Specs.MieszkanieSpecBuilder;
+import com.project.act.Specs.MieszkanieSpecFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -70,7 +70,7 @@ public class MieszkanieService {
     }
 
     public List<MieszkanieGetDTO> filterAndGetMieszkania(MieszkanieFilterDTO mieszkanieFilterDTO){
-        Specification<Mieszkanie> spec = MieszkanieSpecBuilder.builder()
+        Specification<Mieszkanie> spec = MieszkanieSpecFactory.builder()
                 .withKodPocztowy(mieszkanieFilterDTO.getKodPocztowy())
                 .withMiasto(mieszkanieFilterDTO.getMiasto())
                 .withNumer(mieszkanieFilterDTO.getNumer())
@@ -90,6 +90,8 @@ public class MieszkanieService {
                 .withMinPrice(mieszkanieFilterDTO.getMinCena())
                 .withMaxWadium(mieszkanieFilterDTO.getMaxWadium())
                 .withMinWadium(mieszkanieFilterDTO.getMinWadium())
+                .withMinCzasOgledzin(mieszkanieFilterDTO.getMinTerminOgledzin())
+                .withMaxCzasOgledzin(mieszkanieFilterDTO.getMaxTerminOgledzin())
                 .getSpec();
 
         return mieszkanieRepository.findAll(spec)

@@ -46,5 +46,7 @@ public class MieszkanieFilterDTO {
 
     private String prawo;
 
-    private Timestamp  terminOgledzin;
+    private Timestamp  minTerminOgledzin;
+
+    private Timestamp maxTerminOgledzin;
 }
