@@ -1,4 +1,4 @@
-package com.project.act.UnitTests;
+package com.project.act.UnitTests.UserTests;
 
 import com.project.act.Controllers.UserRestControllerAdvice;
 import com.project.act.Exceptions.UserAlreadyExistsException;

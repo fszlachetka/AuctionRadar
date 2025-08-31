@@ -7,15 +7,16 @@ import com.project.act.Services.MieszkanieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/mieszkania")
-public class MieszkanieController {
+public class MieszkanieRestController {
 
     private final MieszkanieService mieszkanieService;
 
-    public MieszkanieController(MieszkanieService mieszkanieService) {
+    public MieszkanieRestController(MieszkanieService mieszkanieService) {
         this.mieszkanieService = mieszkanieService;
         System.out.println("MIESZKANIA rest controller start");
     }
@@ -28,13 +29,21 @@ public class MieszkanieController {
     @PostMapping("/filter")
     public ResponseEntity<List<MieszkanieGetDTO>> filterAndGetMieszkania(@RequestBody MieszkanieFilterDTO dto){
         List<MieszkanieGetDTO> result = mieszkanieService.filterAndGetMieszkania(dto);
-
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping
+    @PostMapping("create")
     public ResponseEntity<MieszkanieGetDTO> createMieszkanie(@RequestBody MieszkanieCreateDTO dto) {
         MieszkanieGetDTO saved = mieszkanieService.createMieszkanie(dto);
+        return ResponseEntity.ok(saved);
+    }
+
+    @PostMapping("create/batch")
+    public ResponseEntity<List<MieszkanieGetDTO>> createMieszkanie(@RequestBody List<MieszkanieCreateDTO> dtos){
+        List<MieszkanieGetDTO> saved = new ArrayList<>();
+        for(var dto : dtos){
+            saved.add(mieszkanieService.createMieszkanie(dto));
+        }
         return ResponseEntity.ok(saved);
     }
 }

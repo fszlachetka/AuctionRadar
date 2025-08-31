@@ -1,12 +1,13 @@
 package com.project.act.DTOs;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class MieszkanieFilterDTO {
     private String kodPocztowy;
 
