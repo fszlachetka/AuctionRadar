@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Najpierw kopiujemy plik z sumą kontrolną, żeby Docker wiedział, że JAR się zmienił
 # Jeśli zmieni się zawartość jar-a, checksum też się zmieni i warstwa COPY zostanie odświeżona
-ADD target/backend-1.0.0.jar backend.jar
+ADD target/backend-1.0.1.jar backend.jar
 RUN sha1sum backend.jar > backend.jar.sha1
 
 EXPOSE 8080

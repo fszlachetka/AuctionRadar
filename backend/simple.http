@@ -21,17 +21,17 @@ Content-Type: application/json
 
 {
   "kodPocztowy": "00-001",
-  "miasto": "Warszawa",
-  "ulica": "Marszałkowska",
+  "miasto": "Krakow",
+  "ulica": "Al. 29 Listopada",
   "numer": "10",
   "numerMieszkania": "15",
   "nrDzialki": "123/45",
-  "nrKsiegiWieczystej": "WA1M/00012345/6",
+  "nrKsiegiWieczystej": "KR1M/00012345/6",
   "rozmiar": 55.5,
   "pokoje": 3,
   "pietro": 2,
   "piwnica": true,
-  "cena": 550000.0,
+  "cena": 570000.0,
   "wadium": 10000.0,
   "terminOgledzin": "2025-09-15T14:00:00"
 }
@@ -39,3 +39,11 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/mieszkania
 
+###
+POST http://localhost:8080/api/mieszkania/filter
+Content-Type: application/json
+
+{
+  "minCena": 500000.00,
+  "maxCena": 600000.00
+}
