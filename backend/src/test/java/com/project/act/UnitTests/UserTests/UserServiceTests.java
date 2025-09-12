@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -27,6 +27,9 @@ public class UserServiceTests {
 
     @Mock
     UserRepository userRepository;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     User user;
 
@@ -59,6 +62,7 @@ public class UserServiceTests {
     @Test
     void testAddUser(){
         userService.addUser(testUserDTO);
+        verify(passwordEncoder, times(1)).encode(testUserDTO.getPasswd());
         verify(userRepository, times(1)).save(user);
     }
 

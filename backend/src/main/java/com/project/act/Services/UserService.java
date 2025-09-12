@@ -7,6 +7,8 @@ import com.project.act.Exceptions.UserNotFoundException;
 import com.project.act.Mappers.UserMapper;
 import com.project.act.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,8 +17,11 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository){
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -24,6 +29,8 @@ public class UserService {
         if(userRepository.existsByLogin(userDTO.getLogin())){
             throw new UserAlreadyExistsException(userDTO.getLogin());
         }
+        User user = UserMapper.toEntity(userDTO);
+        user.setPasswd(passwordEncoder.encode(user.getPasswd()));
         userRepository.save(UserMapper.toEntity(userDTO));
     }
 
@@ -43,6 +50,8 @@ public class UserService {
         return UserMapper.toDTO(user.get());
     }
 
-
+    public boolean checkPassword(String rawPassword, String encodedPassword){
+        return passwordEncoder.matches(rawPassword,encodedPassword);
+    }
 
 }
