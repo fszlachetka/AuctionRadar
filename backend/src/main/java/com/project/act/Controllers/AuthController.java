@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/backend/auth")
+@RequestMapping("/api")
 public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
@@ -28,16 +28,19 @@ public class AuthController {
         this.passwordEncoder = bCryptPasswordEncoder;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseEntity<Object> login(@RequestBody UserDTO userDTO){
-        User user = UserMapper.toEntity(userService.getUserByLogin(userDTO.getLogin()));
+        UserDTO userBase = userService.getUserByLogin(userDTO.getLogin());
 
-        if(!passwordEncoder.matches(userDTO.getPasswd(), user.getPasswd())){
+        System.out.println("entered: " + userDTO.getPasswd());
+        System.out.println("base: " + userBase.getPasswd());
+
+        if(!passwordEncoder.matches(userDTO.getPasswd(), userBase.getPasswd())){
             return ResponseEntity.status(401).body("Invalid credentials");
         }
 
-        String accessToken = jwtUtil.generateAccessToken(user.getLogin());
-        String refreshToken = jwtUtil.generateRefreshToken(user.getLogin());
+        String accessToken = jwtUtil.generateAccessToken(userBase.getLogin());
+        String refreshToken = jwtUtil.generateRefreshToken(userBase.getLogin());
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", accessToken);

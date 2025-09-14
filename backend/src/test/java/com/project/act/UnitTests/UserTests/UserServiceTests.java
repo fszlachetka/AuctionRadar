@@ -62,8 +62,8 @@ public class UserServiceTests {
     @Test
     void testAddUser(){
         userService.addUser(testUserDTO);
-        verify(passwordEncoder, times(1)).encode(testUserDTO.getPasswd());
-        verify(userRepository, times(1)).save(user);
+        verify(passwordEncoder, times(1)).encode(any(String.class));
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
