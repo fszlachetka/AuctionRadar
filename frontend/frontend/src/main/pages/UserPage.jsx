@@ -1,15 +1,16 @@
+// frontend/frontend/src/main/pages/UserPage.jsx
 import { useUserManager } from '../hooks/useUserManager.js'
 import UserCard from '../components/UserCard.jsx'
 
 export default function UserPage() {
     const {
-        registerLogin, setRegisterLogin,
-        registerPasswd, setRegisterPasswd,
-        loginLogin, setLoginLogin,
-        loginPasswd, setLoginPasswd,
-        loggedUser,
-        handleRegister,
-        handleLogin,
+        login: registerLogin, setLogin: setRegisterLogin,
+        passwd: registerPasswd, setPasswd: setRegisterPasswd,
+        foundLogin, setFoundLogin,
+        foundPasswd, setFoundPasswd,
+        foundUser,
+        handleCreate: handleRegister,
+        handleFind: handleLogin,
     } = useUserManager()
 
     return (
@@ -51,15 +52,15 @@ export default function UserPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <input
                         placeholder="Login"
-                        value={loginLogin}
-                        onChange={e => setLoginLogin(e.target.value)}
+                        value={foundLogin}
+                        onChange={e => setFoundLogin(e.target.value)}
                         style={inputStyle}
                     />
                     <input
                         placeholder="Password"
                         type="password"
-                        value={loginPasswd}
-                        onChange={e => setLoginPasswd(e.target.value)}
+                        value={foundPasswd}
+                        onChange={e => setFoundPasswd(e.target.value)}
                         style={inputStyle}
                     />
                     <button onClick={handleLogin} style={buttonStyle}>
@@ -69,10 +70,10 @@ export default function UserPage() {
             </section>
 
             {/* Wyświetlanie zalogowanego użytkownika */}
-            {loggedUser && (
+            {foundUser && (
                 <section>
                     <h2>Logged User</h2>
-                    <UserCard user={loggedUser} />
+                    <UserCard user={foundUser} />
                 </section>
             )}
         </main>
