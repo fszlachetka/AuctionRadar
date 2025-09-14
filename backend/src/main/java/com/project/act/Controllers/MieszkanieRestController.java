@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/mieszkania")
 public class MieszkanieRestController {
@@ -47,4 +47,3 @@ public class MieszkanieRestController {
         return ResponseEntity.ok(saved);
     }
 }
-
