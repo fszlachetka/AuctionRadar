@@ -48,5 +48,31 @@ public class AuthController {
 
         return ResponseEntity.ok(tokens);
     }
+
+    @PostMapping("/user/refresh")
+    public ResponseEntity<Object> refresh(@RequestBody Map<String, String> request) {
+        String refreshToken = request.get("refreshToken");
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            return ResponseEntity.badRequest().body("Missing refresh token");
+        }
+
+        if (!jwtUtil.validateToken(refreshToken)) {
+            return ResponseEntity.status(401).body("Invalid refresh token");
+        }
+
+        String username = jwtUtil.extractUsername(refreshToken);
+
+        if (userService.getUserByLogin(username) == null) {
+            return ResponseEntity.status(401).body("User not found");
+        }
+
+        String newAccessToken = jwtUtil.generateAccessToken(username);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", newAccessToken);
+
+        return ResponseEntity.ok(response);
+    }
+
 }
 

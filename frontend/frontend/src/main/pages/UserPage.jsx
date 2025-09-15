@@ -10,7 +10,7 @@ export default function UserPage() {
         foundPasswd, setFoundPasswd,
         foundUser,
         handleCreate: handleRegister,
-        handleFind: handleLogin,
+        handleLogin: handleLogin,
     } = useUserManager()
 
     return (

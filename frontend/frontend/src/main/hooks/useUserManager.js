@@ -1,7 +1,8 @@
 // frontend/frontend/src/main/hooks/useUserManager.js
 import { useState } from 'react'
-import { createUser, getUserByLogin } from '../api/userApi.js'
+import { createUser, getUserByLogin, loginUser } from '../api/userApi.js'
 import { isValidLogin, isValidPassword } from '../services/userService.js'
+import {saveTokens} from "../services/authService.js";
 
 export function useUserManager() {
     const [login, setLogin] = useState('')
@@ -18,9 +19,9 @@ export function useUserManager() {
 
         try {
             await createUser({ login, passwd })
-            alert('User added succesfully!')
+            alert('User added successfully!')
         } catch (err) {
-            alert('Błąd podczas zapisu')
+            alert('Error creating user')
             console.error(err)
         }
     }
@@ -46,6 +47,33 @@ export function useUserManager() {
         }
     }
 
+    const handleLogin = async ()=>{
+        try{
+            console.log("click")
+            const response = await loginUser(login,passwd);
+
+            const {accessToken, refreshToken} = response.data;
+            if(accessToken && refreshToken){
+                console.log("AC:" + accessToken.toString())
+                console.log("REF: " + refreshToken.toString())
+                saveTokens({accessToken,refreshToken});
+                setFoundLogin(login);
+                setFoundPasswd("PLACEHOLDER");
+                return true;
+            } else {
+                console.error("No tokens in response");
+                return false;
+            }
+        } catch (error){
+            if(error.response){
+                console.error("Login error: ", error.response.data);
+            } else {
+                console.error("Network error: ", error.message);
+            }
+            return false;
+        }
+    }
+
     return {
         login, setLogin,
         passwd, setPasswd,
@@ -53,6 +81,6 @@ export function useUserManager() {
         foundPasswd, setFoundPasswd,
         foundUser,
         handleCreate,
-        handleFind
+        handleLogin
     }
 }
