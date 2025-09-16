@@ -18,5 +18,10 @@ export default defineConfig({
     },
     esbuild: {
         jsx: 'automatic',
-    }
+    },
+    resolve: {
+        alias: {
+            'react-map-gl': 'react-map-gl/dist/es6/index.js',
+        },
+    },
 })

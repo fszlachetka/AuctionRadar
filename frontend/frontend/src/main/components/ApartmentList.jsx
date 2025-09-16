@@ -10,9 +10,9 @@ export default function ApartmentList({ apartments, onSelect }) {
                 >
                     <h3>{apt.miasto}, {apt.ulica} {apt.numer}/{apt.numerMieszkania}</h3>
                     <div style={detailsStyle}>
-                        <p>Price: {apt.cena.toLocaleString()} PLN</p>
-                        <p>Size: {apt.rozmiar} m²</p>
-                        <p>Rooms: {apt.pokoje}</p>
+                        <p>Cena: {apt.cena.toLocaleString()} PLN</p>
+                        <p>Rozmiar: {apt.rozmiar} m²</p>
+                        <p>Pokoje: {apt.pokoje}</p>
                     </div>
                 </div>
             ))}

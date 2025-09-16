@@ -21,11 +21,11 @@ export default function UserPage() {
             fontFamily: 'system-ui, sans-serif',
             color: '#333',
         }}>
-            <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>👤 User Manager</h1>
+            <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>👤 Witaj ponownie!</h1>
 
-            {/* Rejestracja */}
+            {/* rejestracja */}
             <section style={{ marginBottom: '2rem' }}>
-                <h2>Register</h2>
+                <h2>Rejestracja</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <input
                         placeholder="Login"
@@ -46,9 +46,9 @@ export default function UserPage() {
                 </div>
             </section>
 
-            {/* Logowanie */}
+            {/* logowanie */}
             <section style={{ marginBottom: '2rem' }}>
-                <h2>Login</h2>
+                <h2>Logowanie</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <input
                         placeholder="Login"
@@ -69,10 +69,10 @@ export default function UserPage() {
                 </div>
             </section>
 
-            {/* Wyświetlanie zalogowanego użytkownika */}
+            {/* wyświetlanie zalogowanego usera */}
             {foundUser && (
                 <section>
-                    <h2>Logged User</h2>
+                    <h2>Zalogowany użytkownik</h2>
                     <UserCard user={foundUser} />
                 </section>
             )}

@@ -4,7 +4,7 @@ export default function ApartmentDetails({ apartment, onClose }) {
     return (
         <div style={detailsStyle} data-testid="apartment-details">
             <div style={headerStyle}>
-                <h2>Apartment Details</h2>
+                <h2>Szczegóły mieszkania</h2>
                 <button onClick={onClose} style={closeButtonStyle}>×</button>
             </div>
             <div style={contentStyle}>
