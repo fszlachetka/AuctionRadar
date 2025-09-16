@@ -38,7 +38,9 @@ public class MieszkanieService {
                 mieszkanie.getWadium(),
                 mieszkanie.getPrawo(),
                 mieszkanie.getInne(),
-                mieszkanie.getTerminOgledzin()
+                mieszkanie.getTerminOgledzin(),
+                mieszkanie.getXCoord(),
+                mieszkanie.getYCoord()
         );
     }
 
@@ -64,6 +66,8 @@ public class MieszkanieService {
         mieszkanie.setCena(dto.getCena());
         mieszkanie.setWadium(dto.getWadium());
         mieszkanie.setTerminOgledzin(dto.getTerminOgledzin());
+        mieszkanie.setXCoord(dto.getXCoord());
+        mieszkanie.setYCoord(dto.getYCoord());
 
         Mieszkanie saved = mieszkanieRepository.save(mieszkanie);
         return mapToResponseDTO(saved);

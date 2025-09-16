@@ -67,6 +67,12 @@ public class Mieszkanie {
     @Column(name="termin_ogledzin")
     private Timestamp terminOgledzin;
 
+    @Column(name="xCoord")
+    private String xCoord;
+
+    @Column(name="yCoord")
+    private String yCoord;
+
     @OneToMany(mappedBy = "mieszkanie", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Obserwowane> obserwowane;
 }

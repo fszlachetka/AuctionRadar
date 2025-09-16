@@ -39,4 +39,8 @@ public class MieszkanieCreateDTO {
     private String inne;
 
     private Timestamp terminOgledzin;
+
+    private String xCoord;
+
+    private String yCoord;
 }

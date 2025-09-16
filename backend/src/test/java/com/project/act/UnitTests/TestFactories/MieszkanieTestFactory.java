@@ -21,7 +21,7 @@ public class MieszkanieTestFactory {
                 "30-142", "Kraków", "Krótka",
                 "6a", "4", "NR/123", "KR12312/421",
                 71.23, 3, 3, true, 1100000d, 110000d,
-                "własność", "abc" , timestampTest
+                "własność", "abc" , timestampTest,null,null
         );
     }
 
@@ -30,7 +30,7 @@ public class MieszkanieTestFactory {
                 2L, "31-503", "Kraków", "Galicyjska",
                 "1", null, "123", "KR/456",
                 157.23, 6, 0, true, 2200000d, 220000d,
-                "własność", "efg", timestampTest
+                "własność", "efg", timestampTest, null, null
         );
     }
 
