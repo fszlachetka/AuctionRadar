@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JwtUtilTests {
 
-    JwtUtil jwtUtil = new JwtUtil();
+    JwtUtil jwtUtil = new JwtUtil("very_secret_key_for_testing_purposes_only_2142121412442");
 
     @Test
     void testGenerateAndValidateToken() {

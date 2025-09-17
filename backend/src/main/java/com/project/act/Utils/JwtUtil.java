@@ -2,6 +2,7 @@ package com.project.act.Utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -9,9 +10,14 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long accessTokenValidity = 1000 * 60 * 15;
-    private final long refreshTokenValidity = 1000L * 60 * 60 * 24 * 7;
+    private final Key key;
+
+    private final long accessTokenValidity = 1000 * 60 * 15;      // 15 minut
+    private final long refreshTokenValidity = 1000L * 60 * 60 * 24 * 7; // 7 dni
+
+    public JwtUtil(@Value("${jwt.secret}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateAccessToken(String username) {
         return Jwts.builder()

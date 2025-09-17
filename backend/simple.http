@@ -5,7 +5,7 @@ Content-Type: application/json
 
 
 {
-  "login": "zofcia",
+  "login": "zofcia2",
   "passwd": "slo"
 }
 
@@ -56,10 +56,23 @@ POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-  "login": "zofcia",
+  "login": "zofcia2",
   "passwd": "slo"
 }
 
 ###
 
 GET http://localhost:8080/api/user/adam1
+
+###
+POST http://localhost:8080/api/obserwowane/add
+Content-Type: application/json
+
+{
+  "mieszkanieId": 3,
+  "userId": 1
+}
+
+###
+GET http://localhost:8080/api/obserwowane/1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ6b2ZjaWEiLCJleHAiOjE3NTgwOTk2ODR9.yRKY0q6351Q6xlPi7lmhLXDw6_8bhZ7cUAm1sUTUpSumR5FjOF8sdcWs31H3PWvL
