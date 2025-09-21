@@ -26,47 +26,63 @@ export default function UserPage() {
             {/* rejestracja */}
             <section style={{ marginBottom: '2rem' }}>
                 <h2>Rejestracja</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault(); // Prevent default form submission
+                        handleRegister();
+                    }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+                >
                     <input
                         placeholder="Login"
                         value={registerLogin}
-                        onChange={e => setRegisterLogin(e.target.value)}
+                        onChange={(e) => setRegisterLogin(e.target.value)}
                         style={inputStyle}
+                        autoComplete="username"
                     />
                     <input
                         placeholder="Password"
                         type="password"
                         value={registerPasswd}
-                        onChange={e => setRegisterPasswd(e.target.value)}
+                        onChange={(e) => setRegisterPasswd(e.target.value)}
                         style={inputStyle}
+                        autoComplete="new-password"
                     />
-                    <button onClick={handleRegister} style={buttonStyle}>
+                    <button type="submit" style={buttonStyle}>
                         Register
                     </button>
-                </div>
+                </form>
             </section>
 
             {/* logowanie */}
             <section style={{ marginBottom: '2rem' }}>
                 <h2>Logowanie</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault(); // Prevent default form submission
+                        handleLogin();
+                    }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+                >
                     <input
                         placeholder="Login"
                         value={foundLogin}
-                        onChange={e => setFoundLogin(e.target.value)}
+                        onChange={(e) => setFoundLogin(e.target.value)}
                         style={inputStyle}
+                        autoComplete="username"
                     />
                     <input
                         placeholder="Password"
                         type="password"
                         value={foundPasswd}
-                        onChange={e => setFoundPasswd(e.target.value)}
+                        onChange={(e) => setFoundPasswd(e.target.value)}
                         style={inputStyle}
+                        autoComplete="current-password"
                     />
-                    <button onClick={handleLogin} style={buttonStyle}>
+                    <button type="submit" style={buttonStyle}>
                         Login
                     </button>
-                </div>
+                </form>
             </section>
 
             {/* wyświetlanie zalogowanego usera */}
