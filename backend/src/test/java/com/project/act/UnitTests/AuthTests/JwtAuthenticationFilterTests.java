@@ -19,7 +19,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class JwtAuthenticationFilterTest {
+class JwtAuthenticationFilterTests {
 
     private JwtUtil jwtUtil;
     private JwtAuthenticationFilter jwtAuthenticationFilter;

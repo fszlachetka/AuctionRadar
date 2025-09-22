@@ -7,10 +7,7 @@ import com.project.act.Services.UserService;
 import com.project.act.Utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,5 +71,27 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/user/me")
+    public ResponseEntity<Object> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).body("Missing or invalid Authorization header");
+        }
+
+        String token = authHeader.substring(7);
+        if (!jwtUtil.validateToken(token)) {
+            return ResponseEntity.status(401).body("Invalid token");
+        }
+
+        String username = jwtUtil.extractUsername(token);
+        UserDTO user = userService.getUserByLogin(username);
+
+        if (user == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        return ResponseEntity.ok(user);
+    }
 }
+
+
 

@@ -81,4 +81,43 @@ public class AuthControllerTests {
 
         assertThrows(RuntimeException.class, () -> authController.login(dto));
     }
+
+    @Test
+    void testReturnUserWhenTokenIsValid() {
+        String token = "validToken";
+        String authHeader = "Bearer " + token;
+        String username = "john";
+
+        UserDTO userDTO = new UserDTO(username, "encoded");
+
+        when(jwtUtil.validateToken(token)).thenReturn(true);
+        when(jwtUtil.extractUsername(token)).thenReturn(username);
+        when(userService.getUserByLogin(username)).thenReturn(userDTO);
+
+        ResponseEntity<Object> response = authController.getCurrentUser(authHeader);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(userDTO, response.getBody());
+    }
+
+    @Test
+    void testReturn401WhenTokenIsInvalid() {
+        String token = "invalidToken";
+        String authHeader = "Bearer " + token;
+
+        when(jwtUtil.validateToken(token)).thenReturn(false);
+
+        ResponseEntity<Object> response = authController.getCurrentUser(authHeader);
+
+        assertEquals(401, response.getStatusCodeValue());
+        assertEquals("Invalid token", response.getBody());
+    }
+
+    @Test
+    void testReturn401WhenAuthorizationHeaderMissing() {
+        ResponseEntity<Object> response = authController.getCurrentUser(null);
+
+        assertEquals(401, response.getStatusCodeValue());
+        assertEquals("Missing or invalid Authorization header", response.getBody());
+    }
 }
