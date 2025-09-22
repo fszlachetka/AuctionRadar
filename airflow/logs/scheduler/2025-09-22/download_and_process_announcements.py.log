@@ -1,0 +1,144 @@
+[2025-09-22T17:28:00.129+0000] {processor.py:161} INFO - Started process (PID=29) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:00.130+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:28:00.131+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:28:00.131+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:00.253+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:28:00.252+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:28:00.253+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:00.265+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.139 seconds
+[2025-09-22T17:28:30.446+0000] {processor.py:161} INFO - Started process (PID=30) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:30.448+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:28:30.452+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:28:30.451+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:30.509+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:28:30.507+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:28:30.509+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:28:30.525+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.093 seconds
+[2025-09-22T17:29:00.855+0000] {processor.py:161} INFO - Started process (PID=31) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:00.856+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:29:00.859+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:29:00.858+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:00.913+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:29:00.911+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:29:00.913+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:00.944+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.097 seconds
+[2025-09-22T17:29:31.279+0000] {processor.py:161} INFO - Started process (PID=32) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:31.279+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:29:31.282+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:29:31.282+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:31.328+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:29:31.327+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:29:31.329+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:29:31.347+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.085 seconds
+[2025-09-22T17:30:01.692+0000] {processor.py:161} INFO - Started process (PID=33) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:01.693+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:30:01.696+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:30:01.695+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:01.740+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:30:01.739+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:30:01.741+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:01.756+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.087 seconds
+[2025-09-22T17:30:32.136+0000] {processor.py:161} INFO - Started process (PID=34) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:32.137+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:30:32.139+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:30:32.139+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:32.186+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:30:32.185+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:30:32.186+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:30:32.201+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.074 seconds
+[2025-09-22T17:31:02.428+0000] {processor.py:161} INFO - Started process (PID=35) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:02.429+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:31:02.431+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:31:02.430+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:02.479+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:31:02.477+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:31:02.479+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:02.493+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.073 seconds
+[2025-09-22T17:31:32.879+0000] {processor.py:161} INFO - Started process (PID=36) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:32.880+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:31:32.884+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:31:32.883+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:32.932+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:31:32.931+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:31:32.932+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:31:32.958+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.087 seconds
+[2025-09-22T17:32:03.194+0000] {processor.py:161} INFO - Started process (PID=37) to work on /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:32:03.194+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/download_and_process_announcements.py for tasks to queue
+[2025-09-22T17:32:03.197+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:32:03.197+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:32:03.246+0000] {logging_mixin.py:188} INFO - [2025-09-22T17:32:03.245+0000] {dagbag.py:355} ERROR - Failed to import: /opt/airflow/dags/download_and_process_announcements.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/dagbag.py", line 351, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/opt/airflow/dags/download_and_process_announcements.py", line 4, in <module>
+    from utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+  File "/opt/airflow/dags/utils.py", line 3, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+[2025-09-22T17:32:03.246+0000] {processor.py:842} WARNING - No viable dags retrieved from /opt/airflow/dags/download_and_process_announcements.py
+[2025-09-22T17:32:03.261+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/download_and_process_announcements.py took 0.085 seconds

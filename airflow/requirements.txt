@@ -1,0 +1,8 @@
+# Libraries
+apache-airflow
+requests
+beautifulsoup4
+openai
+python-dotenv
+PyPDF2
+pytest
