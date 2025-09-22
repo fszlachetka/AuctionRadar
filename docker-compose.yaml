@@ -39,6 +39,21 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - project_network
+  # === DB FOR TESTS ===
+  db_test:
+    image: postgres:16
+    container_name: db_test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    networks:
+      - project_network
+
 
   # === REDIS ===
   redis:
@@ -64,12 +79,18 @@ services:
       _AIRFLOW_WWW_USER_USERNAME: admin
       _AIRFLOW_WWW_USER_PASSWORD: admin
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/plugins:/opt/airflow/plugins
+      - ./property_pipeline/dags:/opt/airflow/dags
+      - ./property_pipeline/logs:/opt/airflow/logs
+      - ./property_pipeline/plugins:/opt/airflow/plugins
+      - ./property_pipeline/requirements.txt:/tmp/requirements.txt
+      - ./property_pipeline/tests:/opt/airflow/tests
     ports:
       - "8081:8080"
-    command: webserver
+    command: >
+      bash -c "
+        pip install -r /tmp/requirements.txt &&
+        airflow webserver
+      "
     networks:
       - project_network
 
@@ -85,9 +106,9 @@ services:
       AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://postgres:postgres@postgres:5432/postgres
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/plugins:/opt/airflow/plugins
+      - ./property_pipeline/dags:/opt/airflow/dags
+      - ./property_pipeline/logs:/opt/airflow/logs
+      - ./property_pipeline/plugins:/opt/airflow/plugins
     command: scheduler
     networks:
       - project_network
@@ -104,9 +125,9 @@ services:
       AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://postgres:postgres@postgres:5432/postgres
       AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/plugins:/opt/airflow/plugins
+      - ./property_pipeline/dags:/opt/airflow/dags
+      - ./property_pipeline/logs:/opt/airflow/logs
+      - ./property_pipeline/plugins:/opt/airflow/plugins
     command: celery worker
     networks:
       - project_network
@@ -120,9 +141,9 @@ services:
       AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
       AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://postgres:postgres@postgres:5432/postgres
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/plugins:/opt/airflow/plugins
+      - ./property_pipeline/dags:/opt/airflow/dags
+      - ./property_pipeline/logs:/opt/airflow/logs
+      - ./property_pipeline/plugins:/opt/airflow/plugins
     entrypoint: >
       bash -c "
         airflow db migrate &&

@@ -1,0 +1,7 @@
+pytest
+pytest-mock
+pytest-cov
+sqlalchemy
+psycopg2-binary
+faker
+geopy

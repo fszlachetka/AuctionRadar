@@ -9,7 +9,7 @@ class PropertyData:
     pokoje: int
     ulica: str
     miasto: str
-    kod_pocztowy: str
+    kod_pocztowy: Optional[str]
     wywolawcza: int
     nr_ksiegi_wieczystej: str
     wadium: int
@@ -19,3 +19,5 @@ class PropertyData:
     inne: Optional[str]
     nr_dzialki: Optional[str]
     prawo: Optional[str]
+    xCoord: Optional[str]
+    yCoord: Optional[str]
