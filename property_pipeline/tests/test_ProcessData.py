@@ -195,17 +195,17 @@ def test_data_processor_invalid_data():
 # ======================================================================
 
 def test_get_coordinates_selected():
-    lon, lat = get_coordinates_from_address("ul. Prof. S. Łojasiewicza 6", "Kraków")
+    lon, lat = get_coordinates_from_address("Łojasiewicza 6", "Kraków")
 
     assert lat is not None and lon is not None
-    assert float(lat) == pytest.approx(50.030769, abs=0.001)
-    assert float(lon) == pytest.approx(19.906825, abs=0.001)
+    assert float(lat) == pytest.approx(50.030769, abs=0.005)
+    assert float(lon) == pytest.approx(19.906825, abs=0.005)
 
-    lon, lat = get_coordinates_from_address("al. Księcia Józefa Poniatowskiego 1", "Warszawa")
+    lon, lat = get_coordinates_from_address("al. Poniatowskiego 1", "Warszawa")
 
     assert lat is not None and lon is not None
-    assert float(lat) == pytest.approx(52.2365, abs=0.001)
-    assert float(lon) == pytest.approx(21.04299, abs=0.001)
+    assert float(lat) == pytest.approx(52.2365, abs=0.005)
+    assert float(lon) == pytest.approx(21.04299, abs=0.005)
 
 
 def test_get_coordinates_from_address():

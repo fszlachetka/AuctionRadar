@@ -46,7 +46,7 @@ SCRAPER_CONFIGS = {
 }
 
 SCRAPER_REGISTRY = {
-    'PropertyScraper': None,  # To implement
+    'PropertyScraper': PropertyScraper,  # To implement
     'CustomScraper': None,  # To implement
 }
 
