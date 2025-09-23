@@ -1,6 +1,6 @@
 import sys
 import os
-
+from types import SimpleNamespace
 from dags.ScrapData.scrape_utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
 
 import pytest
@@ -55,16 +55,26 @@ def test_extract_data_with_gpt():
         {'url': 'http://example.com/test.pdf', 'text': 'Test tekst PDF'},
         {'url': 'http://example.com/test.html', 'text': 'Test tekst HTML'}
     ]
-    with patch("dags.ScrapData.scrape_utils.openai.ChatCompletion.create") as mock_create, \
-            patch("dags.ScrapData.scrape_utils.prompt_template", "PROMPT: "), \
-            patch("dags.ScrapData.scrape_utils.load_dotenv"), \
-            patch("dags.ScrapData.scrape_utils.os.getenv", return_value="FAKE_KEY"):
-        mock_create.return_value = MagicMock(
-            choices=[MagicMock(message={'content': 'Wynik GPT'})]
-        )
-
+    with patch("dags.ScrapData.scrape_utils.openai.OpenAI") as mock_openai, \
+         patch("dags.ScrapData.scrape_utils.prompt_template", "PROMPT: "), \
+         patch("dags.ScrapData.scrape_utils.load_dotenv"), \
+         patch("dags.ScrapData.scrape_utils.os.getenv", return_value="FAKE_KEY"):
+        class Message:
+            def __init__(self, content):
+                self.content = content
+        class Choice:
+            def __init__(self, message):
+                self.message = message
+        class Response:
+            def __init__(self, choices):
+                self.choices = choices
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value = Response([
+            Choice(Message('Wynik GPT')),
+            Choice(Message('Wynik GPT'))
+        ])
         result = extract_data_with_gpt(texts)
-
         assert result[0]['url'] == 'http://example.com/test.pdf'
         assert result[0]['data'] == 'Wynik GPT'
         assert result[1]['url'] == 'http://example.com/test.html'
@@ -74,7 +84,7 @@ def test_full_pipeline():
     with patch("dags.ScrapData.scrape_utils.requests.get") as mock_get, \
             patch("dags.ScrapData.scrape_utils.PdfReader") as mock_pdf_reader, \
             patch("builtins.open", MagicMock()), \
-            patch("dags.ScrapData.scrape_utils.openai.ChatCompletion.create") as mock_create, \
+            patch("dags.ScrapData.scrape_utils.openai.OpenAI") as mock_openai, \
             patch("dags.ScrapData.scrape_utils.prompt_template", "PROMPT: "), \
             patch("dags.ScrapData.scrape_utils.load_dotenv"), \
             patch("dags.ScrapData.scrape_utils.os.getenv", return_value="FAKE_KEY"):
@@ -105,9 +115,21 @@ def test_full_pipeline():
         mock_pdf.pages = [mock_page]
         mock_pdf_reader.return_value = mock_pdf
 
-        mock_create.return_value = MagicMock(
-            choices=[MagicMock(message={'content': 'Wynik GPT'})]
-        )
+        class Message:
+            def __init__(self, content):
+                self.content = content
+        class Choice:
+            def __init__(self, message):
+                self.message = message
+        class Response:
+            def __init__(self, choices):
+                self.choices = choices
+        mock_client = MagicMock()
+        mock_openai.return_value = mock_client
+        mock_client.chat.completions.create.return_value = Response([
+            Choice(Message('Wynik GPT')),
+            Choice(Message('Wynik GPT'))
+        ])
 
         test_urls = {
             "http://example.com": [["test"], (".pdf", ".html")]

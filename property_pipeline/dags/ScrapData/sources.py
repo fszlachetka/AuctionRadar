@@ -4,18 +4,18 @@ urls = {
 
 prompt_template = """
 Wyciągnij najważniejsze dane z ogłoszenia o licytacji. Wypisz tylko dane. Odpowiedz tylko kodem Python dict z następującymi kluczami. Jeśli jakiejś danej nie ma w ogłoszeniu, wpisz None.
-- rozmiar (w metrach kwadratowych, float)
+- rozmiar (w metrach kwadratowych(nie wliczajac piwnicy), float)
 - pokoje (int)
-- ulica (string)
+- ulica (string, bez poczatku "ul." lub "ulica")
 - miasto (string)
-- kod pocztowy (string)
+- kod_pocztowy (string)
 - wywolawcza (cena wywoławcza w PLN, float)
-- nr_ksiegi_wieczystej (string)
+- ksiegawieczysta (string)
 - wadium (int)
 - pietro (int)
-- termin ogledzin (string, format: dd-mm-yyyy)
+- termin_ogledzin (string, format: dd-mm-yyyy, termin licytacji)
 - piwnica (bool)
 - inne (string, dodatkowe informacje, jeśli są dostępne, w przeciwnym razie null)
-- nr_dzialki (string)
+- dzialka_nr (string)
 - prawo (string)
 """

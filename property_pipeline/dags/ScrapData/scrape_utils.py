@@ -38,30 +38,40 @@ def extract_text_from_links(final_links):
 
     for pdf_url in final_links:
         text = ""
-        r = requests.get(pdf_url)
-        if pdf_url.endswith('.pdf') or pdf_url.endswith('/pdf'):
-            with open('/tmp/temp.pdf', 'wb') as f:
-                f.write(r.content)
-            reader = PdfReader('/tmp/temp.pdf')
-            for page in reader.pages:
-                text += page.extract_text() or ""
+        if pdf_url.startswith("file://"):
+            local_path = pdf_url[7:]
+            if pdf_url.endswith('.pdf') or pdf_url.endswith('/pdf'):
+                reader = PdfReader(local_path)
+                for page in reader.pages:
+                    text += page.extract_text() or ""
+            else:
+                with open(local_path, "r", encoding="utf-8") as f:
+                    text = f.read()
         else:
-            soup = BeautifulSoup(r.text, 'html.parser')
-            text = soup.get_text(separator="\n", strip=True)
+            r = requests.get(pdf_url)
+            if pdf_url.endswith('.pdf') or pdf_url.endswith('/pdf'):
+                with open('/tmp/temp.pdf', 'wb') as f:
+                    f.write(r.content)
+                reader = PdfReader('/tmp/temp.pdf')
+                for page in reader.pages:
+                    text += page.extract_text() or ""
+            else:
+                soup = BeautifulSoup(r.text, 'html.parser')
+                text = soup.get_text(separator="\n", strip=True)
         texts.append({'url': pdf_url, 'text': text})
     return texts
 
 
 def extract_data_with_gpt(texts):
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "../../.env"))
-    openai.api_key = os.getenv('OPENAI_API_KEY')
-    model="gpt-4"
+    model = "gpt-4"
     results = []
+    client = openai.OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
     for item in texts:
         prompt = prompt_template + f"\n{item['text']}"
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}]
         )
-        results.append({'url': item['url'], 'data': response.choices[0].message['content']})
+        results.append({'url': item['url'], 'data': response.choices[0].message.content})
     return results

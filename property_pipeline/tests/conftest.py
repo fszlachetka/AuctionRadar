@@ -1,6 +1,7 @@
 import pytest
 import os
 import sys
+import subprocess
 from pathlib import Path
 
 project_root = Path(__file__).parent.parent
@@ -29,6 +30,27 @@ def setup_test_environment():
     yield
     if "TESTING" in os.environ:
         del os.environ["TESTING"]
+
+@pytest.fixture(scope="session", autouse=True)
+def copy_pdf_to_container():
+    """
+    Copy a test PDF file into the Docker container
+    """
+    local_pdf = "./property_pipeline/tests/test_pdf1.pdf"
+    if not os.path.exists(local_pdf):
+        print(f"Test PDF file does not exist at {local_pdf}")
+        return
+    try:
+        subprocess.run(
+            [
+                "docker", "cp",
+                local_pdf,
+                "airflow-webserver:/opt/airflow/tests/test_pdf1.pdf"
+            ],
+            check=True
+        )
+    except Exception as e:
+        print(f"Couldn't copy PDF file to the container: {e}")
 
 
 def pytest_configure(config):
