@@ -1,14 +1,78 @@
 
 
-POST http://localhost:8080/backend/rest/user
+POST http://localhost:8080/api/user/create
 Content-Type: application/json
 
 
 {
-  "login": "janek123",
-  "passwd": "sekret123"
+  "login": "zofcia2",
+  "passwd": "slo"
 }
 
 ####
 
-GET localhost:8080/backend/rest/janek123
+GET localhost:8080/backend/rest/user/janek123
+
+####
+
+
+POST http://localhost:8080/api/mieszkania/create
+Content-Type: application/json
+
+{
+  "kodPocztowy": "00-001",
+  "miasto": "Warszawa",
+  "ulica": "nega",
+  "numer": "10",
+  "numerMieszkania": "15",
+  "nrDzialki": "123/45",
+  "nrKsiegiWieczystej": "KR1M/00012345/6",
+  "rozmiar": 55.5,
+  "pokoje": 3,
+  "pietro": 2,
+  "piwnica": true,
+  "cena": 570000.0,
+  "wadium": 10000.0,
+  "terminOgledzin": "2025-09-15T14:00:00",
+  "xcoord": "",
+  "ycoord": "345"
+}
+
+###
+GET http://localhost:8080/api/mieszkania
+
+###
+POST http://localhost:8080/api/mieszkania/filter
+Content-Type: application/json
+
+{
+  "minCena": 500000.00,
+  "maxCena": 600000.00
+}
+
+###
+
+POST http://localhost:8080/api/user/login
+Content-Type: application/json
+
+{
+  "login": "zofcia2",
+  "passwd": "slo"
+}
+
+###
+
+GET http://localhost:8080/api/user/adam1
+
+###
+POST http://localhost:8080/api/obserwowane/add
+Content-Type: application/json
+
+{
+  "mieszkanieId": 3,
+  "userId": 1
+}
+
+###
+GET http://localhost:8080/api/obserwowane/1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ6b2ZjaWEiLCJleHAiOjE3NTgwOTk2ODR9.yRKY0q6351Q6xlPi7lmhLXDw6_8bhZ7cUAm1sUTUpSumR5FjOF8sdcWs31H3PWvL

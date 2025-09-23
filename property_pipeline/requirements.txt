@@ -5,3 +5,9 @@ sqlalchemy
 psycopg2-binary
 faker
 geopy
+apache-airflow
+requests
+beautifulsoup4
+openai
+python-dotenv
+PyPDF2

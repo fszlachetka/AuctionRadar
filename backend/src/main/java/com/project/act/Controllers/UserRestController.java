@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 
-@org.springframework.web.bind.annotation.RestController
-@RequestMapping("/backend/rest")
+@RestController
+@RequestMapping("/api")
 public class UserRestController {
 
     private final UserService userService;
@@ -31,7 +31,7 @@ public class UserRestController {
         return new ResponseEntity<>("added succesfully", HttpStatus.OK);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/user/create")
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO userDTO){
         userService.addUser(userDTO);
         return new ResponseEntity<>("added succesfully", HttpStatus.OK);

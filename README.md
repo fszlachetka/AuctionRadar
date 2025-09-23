@@ -4,7 +4,7 @@
 
 ```
 mvn clean package
-docker compose up -d
+docker compose up --build -d
 ```
 
 No ale jak pracujemy tylko nad jednym komponentem to często to nie ma sensu, można odpalać aplikacje pojedyńczo za pomocą:

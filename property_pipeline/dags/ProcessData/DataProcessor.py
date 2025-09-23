@@ -5,7 +5,7 @@ from datetime import datetime
 import re
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
-from ScrapData.Property_Data import PropertyData
+from property_pipeline.dags.ScrapData.Property_Data import PropertyData
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +96,7 @@ def validate_ksiega(numer_ksiegi: str) -> str:
     if not isinstance(numer_ksiegi, str):
         return niepoprawny
 
+
     match = re.match(r"^([A-Z0-9]{4})/(\d{8})/(\d)$", numer_ksiegi.upper())
     if not match:
         return niepoprawny
@@ -148,7 +149,7 @@ def get_coordinates_from_address(ulica: str, miasto: str) -> tuple[Optional[str]
     """
     if not ulica or not miasto:
         return None, None
-    
+
     try:
         geolocator = Nominatim(user_agent="property_pipeline_geocoder", timeout=10)
         

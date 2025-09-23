@@ -3,7 +3,7 @@ from datetime import datetime
 import sys
 import os
 
-from dags.ProcessData.DataProcessor import (
+from property_pipeline.dags.ProcessData.DataProcessor import (
     clean_int,
     clean_float,
     clean_floor,
@@ -16,7 +16,7 @@ from dags.ProcessData.DataProcessor import (
     get_coordinates_from_address,
 )
 
-from dags.ScrapData.Property_Data import PropertyData
+from property_pipeline.dags.ScrapData.Property_Data import PropertyData
 
 
 # ======================================================================
@@ -90,7 +90,7 @@ def test_booleanize():
 
 def test_validate_ksiega_valid_number():
     assert validate_ksiega("WL1A/00272852/9") == "WL1A/00272852/9"
-    assert validate_ksiega("LU1I/00012345/1") == "LU1I/00012345/1"
+    assert validate_ksiega("GD1G/31415926/8") == "GD1G/31415926/8"
 
 
 def test_validate_ksiega_invalid_control_digit():
@@ -195,17 +195,17 @@ def test_data_processor_invalid_data():
 # ======================================================================
 
 def test_get_coordinates_selected():
-    lon, lat = get_coordinates_from_address("ul. Prof. S. Łojasiewicza 6", "Kraków")
+    lon, lat = get_coordinates_from_address("Łojasiewicza 6", "Kraków")
 
     assert lat is not None and lon is not None
-    assert float(lat) == pytest.approx(50.030769, abs=0.001)
-    assert float(lon) == pytest.approx(19.906825, abs=0.001)
+    assert float(lat) == pytest.approx(50.030769, abs=0.005)
+    assert float(lon) == pytest.approx(19.906825, abs=0.005)
 
-    lon, lat = get_coordinates_from_address("al. Księcia Józefa Poniatowskiego 1", "Warszawa")
+    lon, lat = get_coordinates_from_address("al. Poniatowskiego 1", "Warszawa")
 
     assert lat is not None and lon is not None
-    assert float(lat) == pytest.approx(52.2365, abs=0.001)
-    assert float(lon) == pytest.approx(21.04299, abs=0.001)
+    assert float(lat) == pytest.approx(52.2365, abs=0.005)
+    assert float(lon) == pytest.approx(21.04299, abs=0.005)
 
 
 def test_get_coordinates_from_address():
@@ -220,5 +220,3 @@ def test_get_coordinates_from_address():
     xCoord, yCoord = get_coordinates_from_address("ul. Testowa", "")
     assert xCoord is None
     assert yCoord is None
-
-

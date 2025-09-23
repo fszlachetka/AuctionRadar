@@ -1,9 +1,13 @@
 package com.project.act.Entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "obserwowane")
+@Getter
+@Setter
 public class Obserwowane {
     @EmbeddedId
     private ObserwowaneId id;
