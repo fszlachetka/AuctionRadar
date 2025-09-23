@@ -90,7 +90,7 @@ def test_booleanize():
 
 def test_validate_ksiega_valid_number():
     assert validate_ksiega("WL1A/00272852/9") == "WL1A/00272852/9"
-    assert validate_ksiega("LU1I/00012345/1") == "LU1I/00012345/1"
+    assert validate_ksiega("LU1I/00012345/5") == "LU1I/00012345/5"
 
 
 def test_validate_ksiega_invalid_control_digit():
