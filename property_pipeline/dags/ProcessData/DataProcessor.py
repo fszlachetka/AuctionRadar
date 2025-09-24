@@ -6,6 +6,7 @@ import re
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 from dags.ScrapData.Property_Data import PropertyData
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -189,15 +190,20 @@ class DataProcessor:
                 logger.warning(f"Failed to process property record: {prop}. Reason: {str(e)}")
         return processed_data
 
-    def _process_single_property(self, data: Dict[str, Any]) -> PropertyData:
+    def _process_single_property(self, full_data: Dict[str, Any]) -> PropertyData:
         """
         Helper method to process single property
         """
+        url = full_data.get("url")
+        data = full_data.get("data")
+        if url is None or data is None:
+            raise ValueError("Missing 'url' or 'data' in property record")
+        if not isinstance(data, dict):
+            raise ValueError("'data' field is not a dictionary")
         ulica = str(data.get("ulica", "")).strip()
         miasto = normalize_city(data.get("miasto"))
         
         xCoord, yCoord = get_coordinates_from_address(ulica, miasto)
-
         return PropertyData(
             #mieszkanie_id=mieszkanie_id,
             rozmiar=clean_float(data.get("rozmiar")) or 0.0,

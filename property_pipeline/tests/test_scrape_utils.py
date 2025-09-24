@@ -50,6 +50,7 @@ def test_extract_text_from_links():
         assert result[1]["url"] == "http://example.com/test.html"
         assert "Test HTML" in result[1]["text"]
 
+
 def test_extract_data_with_gpt():
     texts = [
         {'url': 'http://example.com/test.pdf', 'text': 'Test tekst PDF'},
@@ -70,15 +71,21 @@ def test_extract_data_with_gpt():
                 self.choices = choices
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value = Response([
-            Choice(Message('Wynik GPT')),
-            Choice(Message('Wynik GPT'))
-        ])
+        mock_client.chat.completions.create.side_effect = [
+            Response([Choice(Message("{'rozmiar': 73.05, 'pokoje': 3}"))]),
+            Response([Choice(Message("{'rozmiar': 55.0, 'pokoje': 2}"))])
+        ]
         result = extract_data_with_gpt(texts)
-        assert result[0]['url'] == 'http://example.com/test.pdf'
-        assert result[0]['data'] == 'Wynik GPT'
-        assert result[1]['url'] == 'http://example.com/test.html'
-        assert result[1]['data'] == 'Wynik GPT'
+        pdf_data = next(item for item in result if item['url'] == 'http://example.com/test.pdf')
+        html_data = next(item for item in result if item['url'] == 'http://example.com/test.html')
+
+        assert isinstance(pdf_data['data'], dict)
+        assert pdf_data['data']['rozmiar'] == 73.05
+        assert pdf_data['data']['pokoje'] == 3
+
+        assert isinstance(html_data['data'], dict)
+        assert html_data['data']['rozmiar'] == 55.0
+        assert html_data['data']['pokoje'] == 2
 
 def test_full_pipeline():
     with patch("dags.ScrapData.scrape_utils.requests.get") as mock_get, \
@@ -126,25 +133,27 @@ def test_full_pipeline():
                 self.choices = choices
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        mock_client.chat.completions.create.return_value = Response([
-            Choice(Message('Wynik GPT')),
-            Choice(Message('Wynik GPT'))
-        ])
+
+        mock_client.chat.completions.create.side_effect = [
+            Response([Choice(Message("{'rozmiar': 73.05, 'pokoje': 3}"))]),
+            Response([Choice(Message("{'rozmiar': 55.0, 'pokoje': 2}"))])
+        ]
 
         test_urls = {
             "http://example.com": [["test"], (".pdf", ".html")]
         }
         urls_result = fetch_urls(test_urls)
-        print("Fetched URLs:", urls_result)
-
         final_links_result = download_final_links(urls_result)
-        print("Final Links:", final_links_result)
         text_result = extract_text_from_links(final_links_result)
-        print("Extracted Text:", text_result)
-
         gpt_result = extract_data_with_gpt(text_result)
-        print("GPT Results:", gpt_result)
 
-        assert any("PDF text" in item["text"] for item in text_result)
-        assert any("Test HTML" in item["text"] for item in text_result)
-        assert all(item["data"] == "Wynik GPT" for item in gpt_result)
+        pdf_data = next(item for item in gpt_result if item['url'].endswith('.pdf'))
+        html_data = next(item for item in gpt_result if item['url'].endswith('.html'))
+
+        assert isinstance(pdf_data['data'], dict)
+        assert pdf_data['data']['rozmiar'] == 73.05
+        assert pdf_data['data']['pokoje'] == 3
+
+        assert isinstance(html_data['data'], dict)
+        assert html_data['data']['rozmiar'] == 55.0
+        assert html_data['data']['pokoje'] == 2

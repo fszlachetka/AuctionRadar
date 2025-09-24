@@ -1,0 +1,8 @@
+.idea
+property_pipeline/.env
+property_pipeline/logs/
+property_pipeline/plugins/
+**/__pycache__/
+property_pipeline/property_pipeline/logs
+property_pipeline/property_pipeline/plugins
+**/.DS_Store

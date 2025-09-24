@@ -20,24 +20,20 @@ def test_extract_text_and_gpt_on_pdf2():
     assert isinstance(gpt_result, list)
     assert len(gpt_result) == 1
     assert gpt_result[0]["url"].endswith("test_pdf2.pdf")
-    assert isinstance(gpt_result[0]["data"], str)
-    assert len(gpt_result[0]["data"].strip()) > 0
+    assert isinstance(gpt_result[0]["data"], dict)
+    data = gpt_result[0]["data"]
 
-    expected_fragments = [
-        '"rozmiar": None',
-        '"pokoje": None',
-        '"ulica": None',
-        '"miasto": None',
-        '"kod_pocztowy": None',
-        '"wywolawcza": None',
-        '"ksiegawieczysta": None',
-        '"wadium": None',
-        '"pietro": None',
-        '"termin_ogledzin": None',
-        '"piwnica": None',
-        '"dzialka_nr": None',
-        '"prawo": None',
-        '"inne": None'
-    ]
-    for fragment in expected_fragments:
-        assert fragment in gpt_result[0]["data"]
+    assert data["rozmiar"] is None
+    assert data["pokoje"] is None
+    assert data["ulica"] is None
+    assert data["miasto"] is None
+    assert data["kod_pocztowy"] is None
+    assert data["wywolawcza"] is None
+    assert data["ksiegawieczysta"] is None
+    assert data["wadium"] is None
+    assert data["pietro"] is None
+    assert data["termin_ogledzin"] is None
+    assert data["piwnica"] is None
+    assert data["dzialka_nr"] is None
+    assert data["prawo"] is None
+    assert data["inne"] is None

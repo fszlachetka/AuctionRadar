@@ -1,6 +1,7 @@
 import os
 from dags.ScrapData.scrape_utils import extract_text_from_links, extract_data_with_gpt
 import pytest
+import ast
 
 def test_extract_text_and_gpt_on_pdf():
     pdf_path = "file:///opt/airflow/tests/test_pdf1.pdf"
@@ -20,19 +21,16 @@ def test_extract_text_and_gpt_on_pdf():
     assert isinstance(gpt_result, list)
     assert len(gpt_result) == 1
     assert gpt_result[0]["url"].endswith("test_pdf1.pdf")
-    assert isinstance(gpt_result[0]["data"], str)
-    assert len(gpt_result[0]["data"].strip()) > 0
+    assert isinstance(gpt_result[0]["data"], dict)
 
-    expected_fragments = [
-        '"rozmiar": 73.05',
-        '"pokoje": 3',
-        '"ulica": "Buchenwaldczyków 3"',
-        '"miasto": "Zabrze"',
-        '"kod_pocztowy": "41-807"',
-        '"wywolawcza": 74533.33',
-        '"ksiegawieczysta": "GL1Z/00033323/3"',
-        '"wadium": 11180',
-        '"piwnica": True'
-    ]
-    for fragment in expected_fragments:
-        assert fragment in gpt_result[0]["data"]
+    data = gpt_result[0]["data"]
+
+    assert data["rozmiar"] == 73.05
+    assert data["pokoje"] == 3
+    assert data["ulica"] == "Buchenwaldczyków 3"
+    assert data["miasto"] == "Zabrze"
+    assert data["kod_pocztowy"] == "41-807"
+    assert data["wywolawcza"] == 74533.33
+    assert data["ksiegawieczysta"] == "GL1Z/00033323/3"
+    assert data["wadium"] == 11180
+    assert data["piwnica"] is True

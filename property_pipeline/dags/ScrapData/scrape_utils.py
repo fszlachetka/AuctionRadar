@@ -6,6 +6,7 @@ from PyPDF2 import PdfReader
 import os
 from dags.ScrapData.sources import urls, prompt_template
 from dotenv import load_dotenv
+import ast
 
 
 def fetch_urls(urls_arg=None):
@@ -73,5 +74,7 @@ def extract_data_with_gpt(texts):
             model=model,
             messages=[{"role": "user", "content": prompt}]
         )
-        results.append({'url': item['url'], 'data': response.choices[0].message.content})
+        data = response.choices[0].message.content
+        data_dict = ast.literal_eval(data)
+        results.append({'url': item['url'], 'data': data_dict})
     return results

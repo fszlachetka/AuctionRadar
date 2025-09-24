@@ -47,21 +47,24 @@ def mock_property_data():
     Generate mock data for testing
     """
     return {
-        "mieszkanie_id": "1",
-        "rozmiar": f"{fake.random_int(min=30, max=150)}.5 m2",
-        "pokoje": str(fake.random_int(min=1, max=5)),
-        "ulica": fake.street_name(),
-        "miasto": fake.city(),
-        "kod_pocztowy": fake.postcode(),
-        "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
-        "ksiegawieczysta": "WL1A/00272852/9",  # Valid księga wieczysta
-        "wadium": str(fake.random_int(min=1000, max=10000)),
-        "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
-        "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
-        "piwnica": fake.random_element(elements=("tak", "nie", "1", "0")),
-        "inne": fake.text(max_nb_chars=100),
-        "dzialka_NR": fake.bothify(text="###/##"),
-        "prawo": fake.random_element(elements=("własność", "spółdzielcze", "użytkowanie wieczyste")),
+        "url": "https://example.com/1",
+        "data": {
+            "mieszkanie_id": "1",
+            "rozmiar": f"{fake.random_int(min=30, max=150)}.5 m2",
+            "pokoje": str(fake.random_int(min=1, max=5)),
+            "ulica": fake.street_name(),
+            "miasto": fake.city(),
+            "kod_pocztowy": fake.postcode(),
+            "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
+            "ksiegawieczysta": "WL1A/00272852/9",  # Valid księga wieczysta
+            "wadium": str(fake.random_int(min=1000, max=10000)),
+            "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
+            "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
+            "piwnica": fake.random_element(elements=("tak", "nie", "1", "0")),
+            "inne": fake.text(max_nb_chars=100),
+            "dzialka_NR": fake.bothify(text="###/##"),
+            "prawo": fake.random_element(elements=("własność", "spółdzielcze", "użytkowanie wieczyste")),
+        }
     }
 
 
@@ -72,21 +75,24 @@ def mock_property_data_list():
     """
     return [
         {
-            "mieszkanie_id": str(i),
-            "rozmiar": f"{fake.random_int(min=30, max=150)}.5 m2",
-            "pokoje": str(fake.random_int(min=1, max=5)),
-            "ulica": fake.street_name(),
-            "miasto": fake.city(),
-            "kod_pocztowy": fake.postcode(),
-            "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
-            "ksiegawieczysta": "WL1A/00272852/9",
-            "wadium": str(fake.random_int(min=1000, max=10000)),
-            "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
-            "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
-            "piwnica": fake.random_element(elements=("tak", "nie", "1", "0")),
-            "inne": fake.text(max_nb_chars=100),
-            "dzialka_NR": f"{fake.random_int(min=1, max=16):02d}{fake.random_int(min=1, max=99):02d}{fake.random_int(min=1, max=99):02d}.{fake.random_int(min=1000, max=9999)}.{fake.random_int(min=100, max=999)}",
-            "prawo": fake.random_element(elements=("własność", "spółdzielcze", "użytkowanie wieczyste")),
+            "url": f"https://example.com/{i}",
+            "data": {
+                "mieszkanie_id": str(i),
+                "rozmiar": f"{fake.random_int(min=30, max=150)}.5 m2",
+                "pokoje": str(fake.random_int(min=1, max=5)),
+                "ulica": fake.street_name(),
+                "miasto": fake.city(),
+                "kod_pocztowy": fake.postcode(),
+                "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
+                "ksiegawieczysta": "WL1A/00272852/9",
+                "wadium": str(fake.random_int(min=1000, max=10000)),
+                "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
+                "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
+                "piwnica": fake.random_element(elements=("tak", "nie", "1", "0")),
+                "inne": fake.text(max_nb_chars=100),
+                "dzialka_NR": f"{fake.random_int(min=1, max=16):02d}{fake.random_int(min=1, max=99):02d}{fake.random_int(min=1, max=99):02d}.{fake.random_int(min=1000, max=9999)}.{fake.random_int(min=100, max=999)}",
+                "prawo": fake.random_element(elements=("własność", "spółdzielcze", "użytkowanie wieczyste")),
+            }
         }
         for i in range(1, 6)
     ]
@@ -132,7 +138,33 @@ class TestDataProcessorIntegration:
         Test processing invalid data
         """
         processor = DataProcessor()
-        invalid_data = [{"invalid": "data"}]
+        invalid_data = [
+            {
+                "invalid": "data"
+            },
+            {
+                "url": "https://example.com/2",
+                "data": "Not a JSON"
+            },
+            {
+                "url": "https://example.com/3",
+                "data": None
+            },
+            {
+                "url": None,
+                "data": {
+                    "mieszkanie_id": "3",
+                    "rozmiar": "60.0 m2",
+                    "pokoje": "3",
+                }
+            },
+            {
+                "url": "https://example.com/4",
+                "data": {
+                    "invalid": "data"
+                }
+            }
+        ]
         
         processed_data = processor.process_data(invalid_data)
         assert len(processed_data) == 1
@@ -264,47 +296,69 @@ class TestFullPipelineIntegration:
         """
         mixed_data = [
             {
-                "mieszkanie_id": "1",
-                "rozmiar": "50.5 m2",
-                "pokoje": "3",
-                "ulica": "Testowa 1",
-                "miasto": "Kraków",
-                "kod_pocztowy": "31-000",
-                "wywolawcza": "100000",
-                "ksiegawieczysta": "WL1A/00272852/9",
-                "wadium": "5000",
-                "pietro": "parter",
-                "termin_ogledzin": "2025-05-15",
-                "piwnica": "tak",
-                "inne": "Balkon",
-                "dzialka_NR": "123",
-                "prawo": "własność",
+                "url": "https://example.com/1",
+                "data": {
+                    "mieszkanie_id": "1",
+                    "rozmiar": "50.5 m2",
+                    "pokoje": "3",
+                    "ulica": "Testowa 1",
+                    "miasto": "Kraków",
+                    "kod_pocztowy": "31-000",
+                    "wywolawcza": "100000",
+                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "wadium": "5000",
+                    "pietro": "parter",
+                    "termin_ogledzin": "2025-05-15",
+                    "piwnica": "tak",
+                    "inne": "Balkon",
+                    "dzialka_NR": "123",
+                    "prawo": "własność"
+                }
             },
             {
                 "invalid": "data"
             },
             {
-                "mieszkanie_id": "3",
-                "rozmiar": "75.0 m2",
-                "pokoje": "4",
-                "ulica": "Kwiatowa 2",
-                "miasto": "Warszawa",
-                "kod_pocztowy": "02-123",
-                "wywolawcza": "200000",
-                "ksiegawieczysta": "WA1W/00012345/6",
-                "wadium": "10000",
-                "pietro": "1",
-                "termin_ogledzin": "2025-06-20 12:00:00",
-                "piwnica": "nie",
-                "inne": "Balkon",
-                "dzialka_NR": "456",
-                "prawo": "spółdzielcze",
+                "url": "https://example.com/2",
+                "data": "Not a JSON"
+            },
+            {
+                "url": "https://example.com/3",
+                "data": None
+            },
+            {
+                "url": None,
+                "data": {
+                    "mieszkanie_id": "3",
+                    "rozmiar": "60.0 m2",
+                    "pokoje": "3",
+                }
+            },
+            {
+                "url": "https://example.com/4",
+                "data": {
+                    "mieszkanie_id": "3",
+                    "rozmiar": "75.0 m2",
+                    "pokoje": "4",
+                    "ulica": "Kwiatowa 2",
+                    "miasto": "Warszawa",
+                    "kod_pocztowy": "02-123",
+                    "wywolawcza": "200000",
+                    "ksiegawieczysta": "WA1W/00012345/6",
+                    "wadium": "10000",
+                    "pietro": "1",
+                    "termin_ogledzin": "2025-06-20 12:00:00",
+                    "piwnica": "nie",
+                    "inne": "Balkon",
+                    "dzialka_NR": "456",
+                    "prawo": "spółdzielcze"
+                }
             }
         ]
         
         processor = DataProcessor()
         processed_data = processor.process_data(mixed_data)
-        assert len(processed_data) == 3
+        assert len(processed_data) == 2
         
         import dags.InsertData.DB_insert as db_insert
         db_insert.SessionLocal = sessionmaker(bind=test_engine)
@@ -332,38 +386,44 @@ class TestDataValidationIntegration:
         """
         test_data = [
             {
-                "mieszkanie_id": "1",
-                "rozmiar": "50.5 m2",
-                "pokoje": "3",
-                "ulica": "Testowa 1",
-                "miasto": "Kraków",
-                "kod_pocztowy": "31-000",
-                "wywolawcza": "100000",
-                "ksiegawieczysta": "WL1A/00272852/9",
-                "wadium": "5000",
-                "pietro": "parter",
-                "termin_ogledzin": "2025-05-15",
-                "piwnica": "tak",
-                "inne": "Balkon",
-                "dzialka_NR": "123",
-                "prawo": "własność",
+                "url": "https://example.com/1",
+                "data": {
+                    "mieszkanie_id": "1",
+                    "rozmiar": "50.5 m2",
+                    "pokoje": "3",
+                    "ulica": "Testowa 1",
+                    "miasto": "Kraków",
+                    "kod_pocztowy": "31-000",
+                    "wywolawcza": "100000",
+                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "wadium": "5000",
+                    "pietro": "parter",
+                    "termin_ogledzin": "2025-05-15",
+                    "piwnica": "tak",
+                    "inne": "Balkon",
+                    "dzialka_NR": "123",
+                    "prawo": "własność",
+                }
             },
             {
-                "mieszkanie_id": "2",
-                "rozmiar": "75.0 m2",
-                "pokoje": "4",
-                "ulica": "Kwiatowa 2",
-                "miasto": "Warszawa",
-                "kod_pocztowy": "02-123",
-                "wywolawcza": "200000",
-                "ksiegawieczysta": "INVALID/123456/7",
-                "wadium": "10000",
-                "pietro": "1",
-                "termin_ogledzin": "2025-06-20 12:00:00",
-                "piwnica": "nie",
-                "inne": "Balkon",
-                "dzialka_NR": "456",
-                "prawo": "spółdzielcze",
+                "url": "https://example.com/2",
+                "data": {
+                    "mieszkanie_id": "2",
+                    "rozmiar": "75.0 m2",
+                    "pokoje": "4",
+                    "ulica": "Kwiatowa 2",
+                    "miasto": "Warszawa",
+                    "kod_pocztowy": "02-123",
+                    "wywolawcza": "200000",
+                    "ksiegawieczysta": "INVALID/123456/7",
+                    "wadium": "10000",
+                    "pietro": "1",
+                    "termin_ogledzin": "2025-06-20 12:00:00",
+                    "piwnica": "nie",
+                    "inne": "Balkon",
+                    "dzialka_NR": "456",
+                    "prawo": "spółdzielcze",
+                }
             }
         ]
         
@@ -398,21 +458,24 @@ class TestDataValidationIntegration:
         """
         test_data = [
             {
-                "mieszkanie_id": "1",
-                "rozmiar": "50.5 m2",
-                "pokoje": "3",
-                "ulica": "Testowa 1",
-                "miasto": "Kraków",
-                "kod_pocztowy": "31 133",
-                "wywolawcza": "100000",
-                "ksiegawieczysta": "WL1A/00272852/9",
-                "wadium": "5000",
-                "pietro": "parter",
-                "termin_ogledzin": "2025-05-15",
-                "piwnica": "tak",
-                "inne": "Balkon",
-                "dzialka_NR": "123",
-                "prawo": "własność",
+                "url": "https://example.com/1",
+                "data": {
+                    "mieszkanie_id": "1",
+                    "rozmiar": "50.5 m2",
+                    "pokoje": "3",
+                    "ulica": "Testowa 1",
+                    "miasto": "Kraków",
+                    "kod_pocztowy": "31 133",
+                    "wywolawcza": "100000",
+                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "wadium": "5000",
+                    "pietro": "parter",
+                    "termin_ogledzin": "2025-05-15",
+                    "piwnica": "tak",
+                    "inne": "Balkon",
+                    "dzialka_NR": "123",
+                    "prawo": "własność",
+                }
             }
         ]
         

@@ -113,40 +113,47 @@ def test_data_processor_valid_data():
     processor = DataProcessor()
     raw_data = [
         {
-            "mieszkanie_id": "1",
-            "rozmiar": "50.5 m2",
-            "pokoje": "3",
-            "ulica": "Główna",
-            "miasto": "Kraków",
-            "kod_pocztowy": "31-000",
-            "wywolawcza": "100000",
-            "ksiegawieczysta": "WL1A/00272852/9",
-            "wadium": "5000",
-            "pietro": "parter",
-            "termin_ogledzin": "2025-05-15",
-            "piwnica": "tak",
-            "inne": "Balkon",
-            "dzialka_NR": "120123.1234.567",
-            "prawo": "własność",
+            "url": "https://example.com/1",
+            "data": {
+                "mieszkanie_id": "1",
+                "rozmiar": "50.5 m2",
+                "pokoje": "3",
+                "ulica": "Główna",
+                "miasto": "Kraków",
+                "kod_pocztowy": "31-000",
+                "wywolawcza": "100000",
+                "ksiegawieczysta": "WL1A/00272852/9",
+                "wadium": "5000",
+                "pietro": "parter",
+                "termin_ogledzin": "2025-05-15",
+                "piwnica": "tak",
+                "inne": "Balkon",
+                "dzialka_NR": "120123.1234.567",
+                "prawo": "własność",
+            }
         },
         {
-            "mieszkanie_id": "2",
-            "rozmiar": "75.0 m2",
-            "pokoje": "4",
-            "ulica": "Kwiatowa",
-            "miasto": "Warszawa",
-            "kod_pocztowy": "02-123",
-            "wywolawcza": "200000",
-            "ksiegawieczysta": "WA1W/00012345/6",
-            "wadium": "10000",
-            "pietro": "1",
-            "termin_ogledzin": "2025-06-20 12:00",
-            "piwnica": "nie",
-            "inne": "Balkon",
-            "dzialka_NR": "140456.7890.123",
-            "prawo": "spółdzielcze",
-        },
+            "url": "https://example.com/2",
+            "data": {
+                "mieszkanie_id": "2",
+                "rozmiar": "75.0 m2",
+                "pokoje": "4",
+                "ulica": "Kwiatowa",
+                "miasto": "Warszawa",
+                "kod_pocztowy": "02-123",
+                "wywolawcza": "200000",
+                "ksiegawieczysta": "WA1W/00012345/6",
+                "wadium": "10000",
+                "pietro": "1",
+                "termin_ogledzin": "2025-06-20 12:00",
+                "piwnica": "nie",
+                "inne": "Balkon",
+                "dzialka_NR": "140456.7890.123",
+                "prawo": "spółdzielcze",
+            }
+        }
     ]
+
 
     processed_list = processor.process_data(raw_data)
 
@@ -179,15 +186,59 @@ def test_data_processor_invalid_data():
     ]
 
     processed_data = processor.process_data(raw_data)
+    assert len(processed_data) == 0
+    raw_data = [
+        {
+            "url": "https://example.com/1",
+            "data": "invalid_json"
+        }
+    ]
+    processed_data = processor.process_data(raw_data)
+    assert len(processed_data) == 0
+    raw_data = [
+        {
+            "url": "https://example.com/1",
+            "data": None
+        },
+        {
+            "url": None,
+            "data": {
+                "mieszkanie_id": "1",
+                "rozmiar": "50.5 m2",
+            }
+        }
+    ]
+    processed_data = processor.process_data(raw_data)
+    assert len(processed_data) == 0
+    raw_data = [
+        {
+            "url": "https://example.com/1",
+            "data": {
+                "puste_dane": "xyz"
+            }
+        }
+    ]
+    processed_data = processor.process_data(raw_data)
     assert len(processed_data) == 1
-    
     prop = processed_data[0]
+    assert isinstance(prop, PropertyData)
     assert prop.rozmiar == 0.0
     assert prop.pokoje == 0
     assert prop.ulica == ""
     assert prop.miasto is None
+    assert prop.kod_pocztowy is None
+    assert prop.wywolawcza == 0
+    assert prop.nr_ksiegi_wieczystej == "0000/00000000/0"
+    assert prop.wadium == 0
+    assert prop.pietro == 0
+    assert prop.termin_ogledzin is None
+    assert prop.piwnica is None
+    assert prop.inne is None
+    assert prop.nr_dzialki is None
+    assert prop.prawo is None
     assert prop.xCoord is None
     assert prop.yCoord is None
+
 
 
 # ======================================================================
