@@ -85,6 +85,7 @@ services:
       - ./property_pipeline/requirements.txt:/tmp/requirements.txt
       - ./property_pipeline/tests:/opt/airflow/tests
       - ./property_pipeline/tests/test_pdf1.pdf:/opt/airflow/tests/test_pdf1.pdf
+      - ./property_pipeline/tests/test_pdf2.pdf:/opt/airflow/tests/test_pdf2.pdf
     ports:
       - "8081:8080"
     command: >

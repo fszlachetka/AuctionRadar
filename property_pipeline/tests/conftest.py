@@ -34,23 +34,27 @@ def setup_test_environment():
 @pytest.fixture(scope="session", autouse=True)
 def copy_pdf_to_container():
     """
-    Copy a test PDF file into the Docker container
+    Copy test PDF files into the Docker container
     """
-    local_pdf = "./property_pipeline/tests/test_pdf1.pdf"
-    if not os.path.exists(local_pdf):
-        print(f"Test PDF file does not exist at {local_pdf}")
-        return
-    try:
-        subprocess.run(
-            [
-                "docker", "cp",
-                local_pdf,
-                "airflow-webserver:/opt/airflow/tests/test_pdf1.pdf"
-            ],
-            check=True
-        )
-    except Exception as e:
-        print(f"Couldn't copy PDF file to the container: {e}")
+    pdfs = [
+        ("./property_pipeline/tests/test_pdf1.pdf", "/opt/airflow/tests/test_pdf1.pdf"),
+        ("./property_pipeline/tests/test_pdf2.pdf", "/opt/airflow/tests/test_pdf2.pdf")
+    ]
+    for local_pdf, container_pdf in pdfs:
+        if not os.path.exists(local_pdf):
+            print(f"Test PDF file does not exist at {local_pdf}")
+            continue
+        try:
+            subprocess.run(
+                [
+                    "docker", "cp",
+                    local_pdf,
+                    f"airflow-webserver:{container_pdf}"
+                ],
+                check=True
+            )
+        except Exception as e:
+            print(f"Couldn't copy PDF file to the container: {e}")
 
 
 def pytest_configure(config):

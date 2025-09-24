@@ -4,6 +4,7 @@ urls = {
 
 prompt_template = """
 Wyciągnij najważniejsze dane z ogłoszenia o licytacji. Wypisz tylko dane. Odpowiedz tylko kodem Python dict z następującymi kluczami. Jeśli jakiejś danej nie ma w ogłoszeniu, wpisz None.
+Jeśli nie jest to ogłoszenie o licytacji nieruchomości, zwróć wszystkie pola jako None.
 - rozmiar (w metrach kwadratowych(nie wliczajac piwnicy), float)
 - pokoje (int)
 - ulica (string, bez poczatku "ul." lub "ulica")

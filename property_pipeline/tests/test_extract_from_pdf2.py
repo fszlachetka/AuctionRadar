@@ -2,11 +2,11 @@ import os
 from dags.ScrapData.scrape_utils import extract_text_from_links, extract_data_with_gpt
 import pytest
 
-def test_extract_text_and_gpt_on_pdf():
-    pdf_path = "file:///opt/airflow/tests/test_pdf1.pdf"
+def test_extract_text_and_gpt_on_pdf2():
+    pdf_path = "file:///opt/airflow/tests/test_pdf2.pdf"
     result = extract_text_from_links([pdf_path])
     assert isinstance(result, list)
-    assert result[0]["url"].endswith("test_pdf1.pdf")
+    assert result[0]["url"].endswith("test_pdf2.pdf")
     assert result[0]["text"].strip() != ""
 
     api_key = os.getenv("OPENAI_API_KEY")
@@ -19,20 +19,25 @@ def test_extract_text_and_gpt_on_pdf():
 
     assert isinstance(gpt_result, list)
     assert len(gpt_result) == 1
-    assert gpt_result[0]["url"].endswith("test_pdf1.pdf")
+    assert gpt_result[0]["url"].endswith("test_pdf2.pdf")
     assert isinstance(gpt_result[0]["data"], str)
     assert len(gpt_result[0]["data"].strip()) > 0
 
     expected_fragments = [
-        '"rozmiar": 73.05',
-        '"pokoje": 3',
-        '"ulica": "Buchenwaldczyków 3"',
-        '"miasto": "Zabrze"',
-        '"kod_pocztowy": "41-807"',
-        '"wywolawcza": 74533.33',
-        '"ksiegawieczysta": "GL1Z/00033323/3"',
-        '"wadium": 11180',
-        '"piwnica": True'
+        '"rozmiar": None',
+        '"pokoje": None',
+        '"ulica": None',
+        '"miasto": None',
+        '"kod_pocztowy": None',
+        '"wywolawcza": None',
+        '"ksiegawieczysta": None',
+        '"wadium": None',
+        '"pietro": None',
+        '"termin_ogledzin": None',
+        '"piwnica": None',
+        '"dzialka_nr": None',
+        '"prawo": None',
+        '"inne": None'
     ]
     for fragment in expected_fragments:
         assert fragment in gpt_result[0]["data"]
