@@ -6,3 +6,4 @@ property_pipeline/plugins/
 property_pipeline/property_pipeline/logs
 property_pipeline/property_pipeline/plugins
 **/.DS_Store
+backend/target/
