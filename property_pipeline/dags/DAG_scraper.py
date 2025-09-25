@@ -10,6 +10,8 @@ from airflow.models import Variable
 from ProcessData.DataProcessor import DataProcessor
 from InsertData.DB_insert import insert_property, init_db
 from ScrapData.Property_Data import PropertyData
+from ScrapData.PropertyScraper import PropertyScraper
+
 
 logger = logging.getLogger(__name__)
 
@@ -46,8 +48,8 @@ SCRAPER_CONFIGS = {
 }
 
 SCRAPER_REGISTRY = {
-    'PropertyScraper': PropertyScraper,  # To implement
-    'CustomScraper': None,  # To implement
+    'PropertyScraper': PropertyScraper,
+    'CustomScraper': None,
 }
 
 

@@ -1,13 +1,17 @@
-from dags.ScrapData.scrape_utils import fetch_urls, download_final_links, extract_text_from_links, extract_data_with_gpt
+from abc import ABC, abstractmethod
+from dags.ScrapData.scrape_utils import extract_text_from_links, extract_data_with_gpt
 from dags.ScrapData.Property_Data import PropertyData
 
-class PropertyScraper:
+class Scraper(ABC):
     def __init__(self, urls_arg=None):
         self.urls_arg = urls_arg
 
+    @abstractmethod
+    def download_final_links(self):
+        pass
+
     def scrape_properties(self):
-        all_urls = fetch_urls()
-        final_links = download_final_links(all_urls)
+        final_links = self.download_final_links()
         texts = extract_text_from_links(final_links)
         extracted_data = extract_data_with_gpt(texts)
         properties = []
