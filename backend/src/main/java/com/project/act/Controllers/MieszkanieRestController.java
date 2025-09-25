@@ -25,6 +25,12 @@ public class MieszkanieRestController {
     public ResponseEntity<List<MieszkanieGetDTO>> getAllMieszkania() {
         return ResponseEntity.ok(mieszkanieService.getAllMieszkanie());
     }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<MieszkanieGetDTO> getMieszkanieById(@PathVariable Long id) {
+        MieszkanieGetDTO mieszkanie = mieszkanieService.getMieszkanieById(id);
+        return ResponseEntity.ok(mieszkanie);
+    }
 
     @PostMapping("/filter")
     public ResponseEntity<List<MieszkanieGetDTO>> filterAndGetMieszkania(@RequestBody MieszkanieFilterDTO dto){

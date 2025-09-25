@@ -1,10 +1,9 @@
-import axios from 'axios'
 import api from './authInterceptorApi.js'
 import { mockApartments } from '../../test/mocks/apartments'
 
 const BASE_URL = 'http://localhost:8080/api/mieszkania'
 
-const USE_MOCKS = true
+const USE_MOCKS = false
 
 export const getAllApartments = () => {
     if (USE_MOCKS === true) {

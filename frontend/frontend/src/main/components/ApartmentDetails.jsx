@@ -11,12 +11,12 @@ export default function ApartmentDetails({ apartment }) {
         const map = new maplibregl.Map({
             container: mapContainerRef.current,
             style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
-            center: [apartment.xCoord, apartment.yCoord],
+            center: [apartment.xcoord, apartment.ycoord],
             zoom: 15
         })
 
         new maplibregl.Marker()
-            .setLngLat([apartment.xCoord, apartment.yCoord])
+            .setLngLat([apartment.xcoord, apartment.ycoord])
             .addTo(map)
 
         return () => map.remove()

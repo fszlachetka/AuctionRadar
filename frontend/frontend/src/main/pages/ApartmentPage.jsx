@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useApartments } from '../hooks/useApartments'
 import ApartmentList from '../components/ApartmentList'
-import ApartmentDetails from '../components/ApartmentDetails'
 import ApartmentFilter from '../components/ApartmentFilter'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -96,10 +95,10 @@ export default function ApartmentPage() {
         const bounds = mapRef.current.getBounds()
         const filtered = apartments.filter(
             apt =>
-                apt.xCoord >= bounds.getWest() &&
-                apt.xCoord <= bounds.getEast() &&
-                apt.yCoord >= bounds.getSouth() &&
-                apt.yCoord <= bounds.getNorth()
+                apt.xcoord >= bounds.getWest() &&
+                apt.xcoord <= bounds.getEast() &&
+                apt.ycoord >= bounds.getSouth() &&
+                apt.ycoord <= bounds.getNorth()
         )
         setVisibleApartments(filtered)
     }
@@ -129,12 +128,12 @@ export default function ApartmentPage() {
         })
 
         const points = apartments
-            .filter(apt => apt.xCoord && apt.yCoord)
+            .filter(apt => apt.xcoord && apt.ycoord)
             .map(apt => ({
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [apt.xCoord, apt.yCoord]
+                    coordinates: [apt.xcoord, apt.ycoord]
                 },
                 properties: {
                     id: apt.mieszkanieId,
@@ -219,7 +218,7 @@ export default function ApartmentPage() {
             const radius = 0.01 * Math.pow(2, 12 - zoom)
 
             const clusterApartments = apartments.filter(a =>
-                Math.abs(a.xCoord - clLng) < radius && Math.abs(a.yCoord - clLat) < radius
+                Math.abs(a.xcoord - clLng) < radius && Math.abs(a.ycoord - clLat) < radius
             )
 
             setFilterByCluster(true)

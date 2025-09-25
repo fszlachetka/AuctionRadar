@@ -9,8 +9,8 @@ export const mockApartments = [
         rozmiar: 55,
         pokoje: 3,
         prawo: "własność",
-        xCoord: 21.0122,
-        yCoord: 52.2297,
+        xcoord: 21.0122,
+        ycoord: 52.2297,
         inne: "LUKSUSOWA MIKROKAWALERKA W CENTRUM WARSZAWY W BARDZO OKAZYJNEJ CENIE - 550 000 ZŁ",
     },
     {
@@ -22,8 +22,8 @@ export const mockApartments = [
         cena: 560000,
         rozmiar: 60,
         pokoje: 4,
-        xCoord: 21.0122,
-        yCoord: 52.2297
+        xcoord: 21.0122,
+        ycoord: 52.2297
     },
     {
         mieszkanieId: 3,
@@ -34,8 +34,8 @@ export const mockApartments = [
         cena: 570000,
         rozmiar: 65,
         pokoje: 5,
-        xCoord: 21.0122,
-        yCoord: 52.2297
+        xcoord: 21.0122,
+        ycoord: 52.2297
     },
     {
         mieszkanieId: 4,
@@ -46,8 +46,8 @@ export const mockApartments = [
         cena: 520000,
         rozmiar: 50,
         pokoje: 2,
-        xCoord: 21.0123,
-        yCoord: 52.2298
+        xcoord: 21.0123,
+        ycoord: 52.2298
     },
     {
         mieszkanieId: 5,
@@ -58,8 +58,8 @@ export const mockApartments = [
         cena: 530000,
         rozmiar: 55,
         pokoje: 3,
-        xCoord: 21.0123,
-        yCoord: 52.2298
+        xcoord: 21.0123,
+        ycoord: 52.2298
     },
     {
         mieszkanieId: 6,
@@ -70,8 +70,8 @@ export const mockApartments = [
         cena: 600000,
         rozmiar: 70,
         pokoje: 4,
-        xCoord: 21.0124,
-        yCoord: 52.2299
+        xcoord: 21.0124,
+        ycoord: 52.2299
     },
     {
         mieszkanieId: 7,
@@ -82,8 +82,8 @@ export const mockApartments = [
         cena: 610000,
         rozmiar: 75,
         pokoje: 5,
-        xCoord: 21.0124,
-        yCoord: 52.2299
+        xcoord: 21.0124,
+        ycoord: 52.2299
     },
     {
         mieszkanieId: 8,
@@ -94,8 +94,8 @@ export const mockApartments = [
         cena: 620000,
         rozmiar: 80,
         pokoje: 6,
-        xCoord: 21.0124,
-        yCoord: 52.2299
+        xcoord: 21.0124,
+        ycoord: 52.2299
     },
     {
         mieszkanieId: 9,
@@ -106,8 +106,8 @@ export const mockApartments = [
         cena: 450000,
         rozmiar: 40,
         pokoje: 2,
-        xCoord: 21.0130,
-        yCoord: 52.2300
+        xcoord: 21.0130,
+        ycoord: 52.2300
     },
     {
         mieszkanieId: 10,
@@ -118,8 +118,8 @@ export const mockApartments = [
         cena: 460000,
         rozmiar: 45,
         pokoje: 3,
-        xCoord: 21.0130,
-        yCoord: 52.2300
+        xcoord: 21.0130,
+        ycoord: 52.2300
     },
     {
         mieszkanieId: 11,
@@ -130,8 +130,8 @@ export const mockApartments = [
         cena: 450000,
         rozmiar: 40,
         pokoje: 2,
-        xCoord: 19.9445,
-        yCoord: 50.0647
+        xcoord: 19.9445,
+        ycoord: 50.0647
     },
     {
         mieszkanieId: 12,
@@ -142,8 +142,8 @@ export const mockApartments = [
         cena: 550000,
         rozmiar: 50,
         pokoje: 3,
-        xCoord: 19.9372,
-        yCoord: 50.0601
+        xcoord: 19.9372,
+        ycoord: 50.0601
     },
     {
         mieszkanieId: 13,
@@ -154,8 +154,8 @@ export const mockApartments = [
         cena: 600000,
         rozmiar: 60,
         pokoje: 4,
-        xCoord: 19.9484,
-        yCoord: 50.0512
+        xcoord: 19.9484,
+        ycoord: 50.0512
     },
     {
         mieszkanieId: 14,
@@ -166,8 +166,8 @@ export const mockApartments = [
         cena: 800000,
         rozmiar: 80,
         pokoje: 5,
-        xCoord: 19.9368,
-        yCoord: 50.0614
+        xcoord: 19.9368,
+        ycoord: 50.0614
     },
     {
         mieszkanieId: 15,
@@ -178,8 +178,8 @@ export const mockApartments = [
         cena: 500000,
         rozmiar: 45,
         pokoje: 2,
-        xCoord: 19.9285,
-        yCoord: 50.0653
+        xcoord: 19.9285,
+        ycoord: 50.0653
     }
 ];
 

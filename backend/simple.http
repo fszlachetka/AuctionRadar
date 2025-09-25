@@ -34,8 +34,8 @@ Content-Type: application/json
   "cena": 570000.0,
   "wadium": 10000.0,
   "terminOgledzin": "2025-09-15T14:00:00",
-  "xcoord": "21.0122",
-  "ycoord": "52.2297"
+  "xCoord": "21.0122",
+  "yCoord": "52.2297"
 }
 
 ###

@@ -73,6 +73,11 @@ public class MieszkanieService {
         return mapToResponseDTO(saved);
     }
 
+    public MieszkanieGetDTO getMieszkanieById(Long id) {
+        Mieszkanie mieszkanie = mieszkanieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono nieruchomości o id: " + id));
+        return mapToResponseDTO(mieszkanie);
+    }
     public List<MieszkanieGetDTO> filterAndGetMieszkania(MieszkanieFilterDTO mieszkanieFilterDTO){
         Specification<Mieszkanie> spec = MieszkanieSpecFactory.builder()
                 .withKodPocztowy(mieszkanieFilterDTO.getKodPocztowy())
