@@ -4,7 +4,7 @@ import { mockApartments } from '../../test/mocks/apartments'
 
 const BASE_URL = 'http://localhost:8080/api/mieszkania'
 
-const USE_MOCKS = false
+const USE_MOCKS = true
 
 export const getAllApartments = () => {
     if (USE_MOCKS === true) {
@@ -22,3 +22,7 @@ export const getApartmentById = (id) => {
     }
    return api.get(`${BASE_URL}/${id}`)
 }
+
+export const filterApartments = (filters) => {
+    return api.post(`${BASE_URL}/filter`, filters);
+};
