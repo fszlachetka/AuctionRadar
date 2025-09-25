@@ -1,0 +1,14 @@
+pytest
+pytest-mock
+pytest-cov
+sqlalchemy
+psycopg2-binary
+faker
+geopy
+apache-airflow
+requests
+beautifulsoup4
+openai
+python-dotenv
+PyPDF2
+pydantic>=2.0.0
