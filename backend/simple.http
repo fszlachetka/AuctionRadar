@@ -62,10 +62,11 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8080/api/user/adam1
+GET http://localhost:8080/api/user/zofcia2
 
 ###
 POST http://localhost:8080/api/obserwowane/add
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ6b2ZjaWEyIiwiZXhwIjoxNzU4ODE2OTI3fQ.WzU1NusRKo0TGAV_IYThEzT9-BhvbKip83zf2QkVXBdv17H37dcQUHLAksots5ph
 Content-Type: application/json
 
 {

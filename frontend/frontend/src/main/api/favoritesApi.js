@@ -1,4 +1,3 @@
-import axios from 'axios'
 import api from './authInterceptorApi.js'
 
 const BASE_URL = 'http://localhost:8080/api/obserwowane'
