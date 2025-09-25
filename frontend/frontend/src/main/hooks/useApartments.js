@@ -22,20 +22,11 @@ export function useApartments() {
         }
     }
 
-    const selectApartment = async (id) => {
-        try {
-            const response = await getApartmentById(id)
-            setSelectedApartment(response.data)
-        } catch (err) {
-            setError('Failed to load apartment details')
-        }
-    }
-
     return {
         apartments,
         selectedApartment,
         loading,
         error,
-        selectApartment
+        setApartments
     }
 }
