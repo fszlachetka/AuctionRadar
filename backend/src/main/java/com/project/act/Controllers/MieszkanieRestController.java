@@ -38,13 +38,13 @@ public class MieszkanieRestController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<MieszkanieGetDTO> createMieszkanie(@RequestBody MieszkanieCreateDTO dto) {
         MieszkanieGetDTO saved = mieszkanieService.createMieszkanie(dto);
         return ResponseEntity.ok(saved);
     }
 
-    @PostMapping("create/batch")
+    @PostMapping("/create/batch")
     public ResponseEntity<List<MieszkanieGetDTO>> createMieszkanie(@RequestBody List<MieszkanieCreateDTO> dtos){
         List<MieszkanieGetDTO> saved = new ArrayList<>();
         for(var dto : dtos){
