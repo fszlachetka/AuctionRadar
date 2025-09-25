@@ -1,8 +1,7 @@
 package com.project.act.Controllers;
 
 import com.project.act.DTOs.UserDTO;
-import com.project.act.Entities.User;
-import com.project.act.Mappers.UserMapper;
+import com.project.act.DTOs.UserGetDTO;
 import com.project.act.Services.UserService;
 import com.project.act.Utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/user/login")
     public ResponseEntity<Object> login(@RequestBody UserDTO userDTO){
-        UserDTO userBase = userService.getUserByLogin(userDTO.getLogin());
+        UserGetDTO userBase = userService.getUserDtoWithId(userDTO.getLogin());
 
         System.out.println("entered: " + userDTO.getPasswd());
         System.out.println("base: " + userBase.getPasswd());
@@ -40,6 +39,7 @@ public class AuthController {
         String refreshToken = jwtUtil.generateRefreshToken(userBase.getLogin());
 
         Map<String, String> tokens = new HashMap<>();
+        tokens.put("userId", userBase.getId().toString() );
         tokens.put("accessToken", accessToken);
         tokens.put("refreshToken", refreshToken);
 

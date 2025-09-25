@@ -2,6 +2,7 @@ package com.project.act.UnitTests.AuthTests;
 
 import com.project.act.Controllers.AuthController;
 import com.project.act.DTOs.UserDTO;
+import com.project.act.DTOs.UserGetDTO;
 import com.project.act.Entities.User;
 import com.project.act.Exceptions.UserNotFoundException;
 import com.project.act.Services.UserService;
@@ -39,7 +40,7 @@ public class AuthControllerTests {
         user.setLogin("john");
         user.setPasswd("encoded");
 
-        when(userService.getUserByLogin("john")).thenReturn(new UserDTO("john", "encoded"));
+        when(userService.getUserDtoWithId("john")).thenReturn(new UserGetDTO(1L,"john", "encoded"));
         when(passwordEncoder.matches("secret", "encoded")).thenReturn(true);
         when(jwtUtil.generateAccessToken("john")).thenReturn("access");
         when(jwtUtil.generateRefreshToken("john")).thenReturn("refresh");
@@ -62,7 +63,7 @@ public class AuthControllerTests {
         user.setLogin("john");
         user.setPasswd("encoded");
 
-        when(userService.getUserByLogin("john")).thenReturn(new UserDTO("john", "encoded"));
+        when(userService.getUserDtoWithId("john")).thenReturn(new UserGetDTO(1L,"john", "encoded"));
         when(passwordEncoder.matches("wrong", "encoded")).thenReturn(false);
 
         ResponseEntity<Object> response = authController.login(dto);

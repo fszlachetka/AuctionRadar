@@ -1,6 +1,7 @@
 package com.project.act.Services;
 
 import com.project.act.DTOs.UserDTO;
+import com.project.act.DTOs.UserGetDTO;
 import com.project.act.Entities.User;
 import com.project.act.Exceptions.UserAlreadyExistsException;
 import com.project.act.Exceptions.UserNotFoundException;
@@ -47,6 +48,14 @@ public class UserService {
             throw new UserNotFoundException(login);
         }
         return UserMapper.toDTO(user.get());
+    }
+
+    public UserGetDTO getUserDtoWithId(String login){
+        Optional<User> user = userRepository.findByLogin(login);
+        if(user.isEmpty()){
+            throw new UserNotFoundException(login);
+        }
+        return UserMapper.toGetDTO(user.get());
     }
 
     public boolean checkPassword(String rawPassword, String encodedPassword){

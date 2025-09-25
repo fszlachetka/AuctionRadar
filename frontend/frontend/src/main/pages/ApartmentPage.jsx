@@ -75,12 +75,14 @@ export default function ApartmentPage() {
             return
         }
 
+        let userIdToInt = parseInt(userId)
+
         try {
             if (favorites.includes(mieszkanieId)) {
-                await removeFromFavorites(userId, mieszkanieId)
+                await removeFromFavorites(userIdToInt, mieszkanieId)
                 setFavorites(favorites.filter(id => id !== mieszkanieId))
             } else {
-                await addToFavorites(userId, mieszkanieId)
+                await addToFavorites(userIdToInt, mieszkanieId)
                 setFavorites([...favorites, mieszkanieId])
             }
         } catch (err) {
