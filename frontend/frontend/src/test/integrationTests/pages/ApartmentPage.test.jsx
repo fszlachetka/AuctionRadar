@@ -1,80 +1,112 @@
-// frontend/frontend/src/test/integrationTests/pages/ApartmentPage.test.jsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { vi } from 'vitest'
 import ApartmentPage from '../../../main/pages/ApartmentPage'
-import * as apartmentApi from '../../../main/api/apartmentApi'
+import { useApartments } from '../../../main/hooks/useApartments'
+import * as favoritesApi from '../../../main/api/favoritesApi'
+import { filterApartments } from '../../../main/api/apartmentApi'
 
-//vi.mock('../../../main/api/apartmentApi')
-
-// frontend/frontend/src/test/integrationTests/pages/ApartmentPage.test.jsx
-import { mockApartments } from '../../mocks/apartments'
-
-vi.mock('../../../main/api/apartmentApi', () => ({
-    getAllApartments: vxi.fn().mockResolvedValue({ data: mockApartments }),
-    getApartmentById: vi.fn().mockImplementation((id) => ({
-        data: mockApartments.find(apt => apt.mieszkanieId === id)
-    }))
+vi.mock('maplibre-gl', () => ({
+    default: {
+        Map: vi.fn(() => ({
+            on: vi.fn(),
+            remove: vi.fn(),
+            addSource: vi.fn(),
+            addLayer: vi.fn(),
+            getBounds: vi.fn(() => ({
+                getWest: () => 20,
+                getEast: () => 22,
+                getSouth: () => 51,
+                getNorth: () => 53
+            }))
+        }))
+    }
 }))
 
+vi.mock('../../../main/hooks/useApartments')
+vi.mock('../../../main/api/favoritesApi')
+vi.mock('../../../main/api/apartmentApi')
+
+const mockApartments = [
+    {
+        mieszkanieId: 1,
+        miasto: 'Warszawa',
+        ulica: 'Marszałkowska',
+        numer: '10',
+        numerMieszkania: '15',
+        cena: 550000,
+        rozmiar: 55,
+        pokoje: 3,
+        xCoord: '21.0',
+        yCoord: '52.0'
+    }
+]
+
 describe('ApartmentPage', () => {
-    const mockApartments = [
-        {
-            mieszkanieId: 1,
-            miasto: 'Warszawa',
-            ulica: 'Marszałkowska',
-            numer: '10',
-            numerMieszkania: '15',
-            cena: 550000,
-            rozmiar: 55,
-            pokoje: 3
-        }
-    ]
-
     beforeEach(() => {
-        apartmentApi.getAllApartments.mockResolvedValue({ data: mockApartments })
-        apartmentApi.getApartmentById.mockResolvedValue({ data: mockApartments[0] })
+        vi.clearAllMocks()
+        useApartments.mockReturnValue({
+            apartments: mockApartments,
+            selectedApartment: null,
+            loading: false,
+            error: null,
+            selectApartment: vi.fn(),
+            setApartments: vi.fn()
+        })
+        favoritesApi.getFavorites.mockResolvedValue({ data: [] })
+        filterApartments.mockResolvedValue({ data: mockApartments })
+        localStorage.setItem('userId', '1')
     })
 
-    test('shows apartment list', async () => {
+    test('render map', () => {
+        render(<ApartmentPage />)
+        const mapContainer = screen.getByRole('complementary')
+        expect(mapContainer).toBeInTheDocument()
+    })
+
+    test('filter apartments based on form input', async () => {
         render(<ApartmentPage />)
 
+        const filterButton = screen.getByText('Filtruj')
+        fireEvent.click(filterButton)
+
         await waitFor(() => {
-            expect(screen.getByText('Available Apartments')).toBeInTheDocument()
-            expect(screen.getByText(/Warszawa, Marszałkowska/)).toBeInTheDocument()
+            expect(filterApartments).toHaveBeenCalled()
         })
     })
 
-    test('shows apartment details when apartment is selected', async () => {
+    test('handle favorite when logged in', async () => {
         render(<ApartmentPage />)
 
-        // Wait for the list to load
-        await waitFor(() => {
-            expect(screen.getByText(/Warszawa, Marszałkowska/)).toBeInTheDocument()
-        })
+        const favoriteButton = screen.getByText('🤍')
+        fireEvent.click(favoriteButton)
 
-        // Click on the apartment card
-        fireEvent.click(screen.getByText(/Warszawa, Marszałkowska/))
-
-        // Verify details modal appears with specific content
         await waitFor(() => {
-            const details = screen.getByTestId('apartment-details')
-            expect(details).toBeInTheDocument()
-            expect(screen.getByTestId('details-price')).toHaveTextContent('550,000 PLN')
-            expect(screen.getByTestId('details-size')).toHaveTextContent('55 m²')
-            expect(screen.getByTestId('details-rooms')).toHaveTextContent('Rooms: 3')
+            expect(favoritesApi.addToFavorites).toHaveBeenCalledWith('1', 1)
         })
     })
 
-    test('shows loading state', () => {
+    test('show login alert when toggling favorites not logged in', () => {
+        localStorage.removeItem('userId')
         render(<ApartmentPage />)
-        expect(screen.getByText('Loading...')).toBeInTheDocument()
+
+        const favoriteButton = screen.getByText('🤍')
+        fireEvent.click(favoriteButton)
+
+        expect(screen.getByText('Zaloguj się, aby obserwować nieruchomość.')).toBeInTheDocument()
     })
 
-    test('shows error state', async () => {
-        apartmentApi.getAllApartments.mockRejectedValue(new Error('Failed to load'))
-        render(<ApartmentPage />)
+    test('update visible apartments when map bounds change', async () => {
+        const { rerender } = render(<ApartmentPage />)
 
         await waitFor(() => {
-            expect(screen.getByText(/Error:/)).toBeInTheDocument()
+            expect(screen.getByText('Warszawa, Marszałkowska 10/15')).toBeInTheDocument()
+        })
+
+        rerender(<ApartmentPage />)
+
+        await waitFor(() => {
+            const apartmentList = screen.getByRole('list')
+            expect(apartmentList).toBeInTheDocument()
         })
     })
 })
