@@ -1,84 +1,61 @@
-// frontend/frontend/src/main/hooks/useUserManager.js
 import { useState } from 'react'
-import { createUser, getUserByLogin, loginUser } from '../api/userApi.js'
+import { createUser, loginUser } from '../api/userApi.js'
 import { isValidLogin, isValidPassword } from '../services/userService.js'
-import {saveTokens} from "../services/authService.js";
+import { saveTokens } from '../services/authService.js'
 
 export function useUserManager() {
-    const [login, setLogin] = useState('')
-    const [passwd, setPasswd] = useState('')
     const [foundLogin, setFoundLogin] = useState('')
     const [foundPasswd, setFoundPasswd] = useState('')
+    const [login, setLogin] = useState('')
+    const [passwd, setPasswd] = useState('')
     const [foundUser, setFoundUser] = useState(null)
 
     const handleCreate = async () => {
         if (!isValidLogin(login) || !isValidPassword(passwd)) {
-            alert('Login or Password is not valid.')
+            alert('Login lub hasło nieprawidłowe')
             return
         }
 
         try {
             await createUser({ login, passwd })
-            alert('User added successfully!')
+            alert('Użytkownik dodany pomyślnie!')
+            setLogin('')
+            setPasswd('')
         } catch (err) {
-            alert('Error creating user')
+            alert('Błąd podczas tworzenia użytkownika')
             console.error(err)
         }
     }
 
-    const handleFind = async () => {
+    const handleLogin = async () => {
         if (!isValidLogin(foundLogin) || !isValidPassword(foundPasswd)) {
-            alert('Login or Password is not valid.')
+            alert('Login lub hasło nieprawidłowe')
             return
         }
 
         try {
-            const res = await getUserByLogin(foundLogin)
-            if (res.data.passwd === foundPasswd) {
-                setFoundUser(res.data)
-            } else {
-                alert('Invalid password')
-                setFoundUser(null)
-            }
+            const response = await loginUser(foundLogin, foundPasswd)
+            const { accessToken, refreshToken } = response.data
+            saveTokens({ accessToken, refreshToken })
+            localStorage.setItem('userId', response.data.userId)
+            setFoundUser({ login: foundLogin })
+            setFoundPasswd('')
+            window.location.href = '/logged'
         } catch (err) {
-            alert('User not found')
+            alert('Nieprawidłowe dane logowania')
             console.error(err)
-            setFoundUser(null)
-        }
-    }
-
-    const handleLogin = async ()=>{
-        try{
-            console.log("click")
-            const response = await loginUser(login,passwd);
-
-            const {accessToken, refreshToken} = response.data;
-            if(accessToken && refreshToken){
-                console.log("AC:" + accessToken.toString())
-                console.log("REF: " + refreshToken.toString())
-                saveTokens({accessToken,refreshToken});
-                setFoundLogin(login);
-                setFoundPasswd("PLACEHOLDER");
-                return true;
-            } else {
-                console.error("No tokens in response");
-                return false;
-            }
-        } catch (error){
-            if(error.response){
-                console.error("Login error: ", error.response.data);
-            } else {
-                console.error("Network error: ", error.message);
-            }
-            return false;
         }
     }
 
     return {
-        login, setLogin,
-        passwd, setPasswd,
-        foundLogin, setFoundLogin,
-        foundPasswd, setFoundPasswd,
+        login,
+        setLogin,
+        passwd,
+        setPasswd,
+        foundLogin,
+        setFoundLogin,
+        foundPasswd,
+        setFoundPasswd,
         foundUser,
         handleCreate,
         handleLogin

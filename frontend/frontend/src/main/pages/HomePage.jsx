@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function HomePage({ isLoggedIn, onLogout }) {
+export default function HomePage() {
     const [city, setCity] = useState('')
     const navigate = useNavigate()
 
@@ -17,17 +17,6 @@ export default function HomePage({ isLoggedIn, onLogout }) {
         <main style={mainStyle}>
             <header style={headerStyle}>
                 <h1>🏠 Wyszukiwarka mieszkań</h1>
-                <div>
-                    {isLoggedIn ? (
-                        <>
-                            <button onClick={() => navigate('/profile')} style={buttonStyle}>Profile</button>
-                            <button onClick={() => navigate('/favorites')} style={buttonStyle}>Favorites</button>
-                            <button onClick={onLogout} style={buttonStyle}>Logout</button>
-                        </>
-                    ) : (
-                        <button onClick={() => navigate('/users')} style={buttonStyle}>Login / Register</button>
-                    )}
-                </div>
             </header>
 
             <section style={searchSectionStyle}>

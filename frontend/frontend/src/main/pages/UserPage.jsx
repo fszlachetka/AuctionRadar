@@ -1,106 +1,115 @@
-// frontend/frontend/src/main/pages/UserPage.jsx
 import { useUserManager } from '../hooks/useUserManager.js'
-import UserCard from '../components/UserCard.jsx'
+import UserCard from '../components/UserCard'
 
-export default function UserPage() {
+export default function UserPage({ setIsLoggedIn }) {
     const {
-        login: registerLogin, setLogin: setRegisterLogin,
-        passwd: registerPasswd, setPasswd: setRegisterPasswd,
-        foundLogin, setFoundLogin,
-        foundPasswd, setFoundPasswd,
+        login,
+        setLogin,
+        passwd,
+        setPasswd,
+        foundLogin,
+        setFoundLogin,
+        foundPasswd,
+        setFoundPasswd,
         foundUser,
-        handleCreate: handleRegister,
-        handleLogin: handleLogin,
+        handleCreate,
+        handleLogin
     } = useUserManager()
 
     return (
-        <main style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            padding: '2rem',
-            fontFamily: 'system-ui, sans-serif',
-            color: '#333',
-        }}>
-            <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>👤 Witaj ponownie!</h1>
-
-            {/* rejestracja */}
-            <section style={{ marginBottom: '2rem' }}>
-                <h2>Rejestracja</h2>
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault(); // Prevent default form submission
-                        handleRegister();
-                    }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-                >
-                    <input
-                        placeholder="Login"
-                        value={registerLogin}
-                        onChange={(e) => setRegisterLogin(e.target.value)}
-                        style={inputStyle}
-                        autoComplete="username"
-                    />
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        value={registerPasswd}
-                        onChange={(e) => setRegisterPasswd(e.target.value)}
-                        style={inputStyle}
-                        autoComplete="new-password"
-                    />
-                    <button type="submit" style={buttonStyle}>
-                        Register
-                    </button>
-                </form>
-            </section>
-
-            {/* logowanie */}
-            <section style={{ marginBottom: '2rem' }}>
-                <h2>Logowanie</h2>
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault(); // Prevent default form submission
-                        handleLogin();
-                    }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-                >
-                    <input
-                        placeholder="Login"
-                        value={foundLogin}
-                        onChange={(e) => setFoundLogin(e.target.value)}
-                        style={inputStyle}
-                        autoComplete="username"
-                    />
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        value={foundPasswd}
-                        onChange={(e) => setFoundPasswd(e.target.value)}
-                        style={inputStyle}
-                        autoComplete="current-password"
-                    />
-                    <button type="submit" style={buttonStyle}>
-                        Login
-                    </button>
-                </form>
-            </section>
-
-            {/* wyświetlanie zalogowanego usera */}
-            {foundUser && (
-                <section>
-                    <h2>Zalogowany użytkownik</h2>
-                    <UserCard user={foundUser} />
+        <main style={mainStyle}>
+            <div style={formContainerStyle}>
+                <section style={sectionStyle}>
+                    <h2>Register</h2>
+                    <div style={formGroupStyle}>
+                        <input
+                            type="text"
+                            placeholder="Login"
+                            value={login}
+                            onChange={(e) => setLogin(e.target.value)}
+                            style={inputStyle}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Hasło"
+                            value={passwd}
+                            onChange={(e) => setPasswd(e.target.value)}
+                            style={inputStyle}
+                        />
+                        <button onClick={handleCreate} style={buttonStyle}>
+                            Register
+                        </button>
+                    </div>
                 </section>
-            )}
+
+                <section style={sectionStyle}>
+                    <h2>Login</h2>
+                    <div style={formGroupStyle}>
+                        <input
+                            type="text"
+                            placeholder="Login"
+                            value={foundLogin}
+                            onChange={(e) => setFoundLogin(e.target.value)}
+                            style={inputStyle}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Hasło"
+                            value={foundPasswd}
+                            onChange={(e) => setFoundPasswd(e.target.value)}
+                            style={inputStyle}
+                        />
+                        <button onClick={() => handleLogin(setIsLoggedIn)} style={buttonStyle}>
+                            Login
+                        </button>
+                    </div>
+                </section>
+
+                {foundUser && (
+                    <section style={sectionStyle}>
+                        <h2>Logged User</h2>
+                        <UserCard user={foundUser} />
+                    </section>
+                )}
+            </div>
         </main>
     )
 }
 
+const mainStyle = {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '2rem'
+}
+
+const formContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+    maxWidth: '400px',
+    margin: '0 auto'
+}
+
+const sectionStyle = {
+    backgroundColor: '#fff',
+    padding: '2rem',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+}
+
+const formGroupStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    marginBottom: '2rem'
+}
+
 const inputStyle = {
-    padding: '0.6rem 1rem',
+    width: '100%',
+    padding: '0.6rem',
     fontSize: '1rem',
-    borderRadius: '6px',
-    border: '1px solid #ccc',
+    borderRadius: '4px',
+    border: '1px solid #ccc'
 }
 
 const buttonStyle = {
@@ -111,5 +120,5 @@ const buttonStyle = {
     fontSize: '1rem',
     border: 'none',
     borderRadius: '6px',
-    cursor: 'pointer',
+    cursor: 'pointer'
 }
