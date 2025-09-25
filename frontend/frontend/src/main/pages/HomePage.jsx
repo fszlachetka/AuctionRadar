@@ -45,16 +45,6 @@ const headerStyle = {
     marginBottom: '2rem',
 }
 
-const buttonStyle = {
-    margin: '0 0.5rem',
-    padding: '0.5rem 1rem',
-    backgroundColor: '#646cff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-}
-
 const searchSectionStyle = {
     marginTop: '2rem',
 }
