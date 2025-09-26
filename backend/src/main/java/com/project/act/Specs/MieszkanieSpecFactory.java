@@ -20,12 +20,18 @@ public class MieszkanieSpecFactory {
         return new MieszkanieSpecFactory();
     }
 
+    private void equalsIgnoreCaseNotNull(String value, String fieldName) {
+        if (value != null && !value.isEmpty()) {
+            this.spec = spec.and((root, query, cb) ->
+                    cb.equal(cb.lower((root.get(fieldName))), value.toLowerCase()));
+        }
+    }
+
     private <T> void equalsNotNull(T value, String fieldName){
         if(value != null){
             this.spec = spec.and((root,query,cb) -> cb.equal(root.get(fieldName), value));
         }
     }
-
     private <T extends Comparable<? super T>> void greaterEqualNotNull(T value, String fieldName){
         if(value != null){
             this.spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get(fieldName), value));
@@ -39,42 +45,42 @@ public class MieszkanieSpecFactory {
     }
 
     public MieszkanieSpecFactory withKodPocztowy (String kodPocztowy){
-        equalsNotNull(kodPocztowy, "kodPocztowy");
+        equalsIgnoreCaseNotNull(kodPocztowy, "kodPocztowy");
         return this;
     }
 
     public MieszkanieSpecFactory withMiasto (String miasto){
-        equalsNotNull(miasto, "miasto");
+        equalsIgnoreCaseNotNull(miasto, "miasto");
         return this;
     }
 
     public MieszkanieSpecFactory withNumer (String numer){
-        equalsNotNull(numer, "numer");
+        equalsIgnoreCaseNotNull(numer, "numer");
         return this;
     }
 
     public MieszkanieSpecFactory withNumerMieszkania(String numerMieszkania){
-        equalsNotNull(numerMieszkania, "numerMieszkania");
+        equalsIgnoreCaseNotNull(numerMieszkania, "numerMieszkania");
         return this;
     }
 
     public MieszkanieSpecFactory withUlica(String ulica){
-        equalsNotNull(ulica, "ulica");
+        equalsIgnoreCaseNotNull(ulica, "ulica");
         return this;
     }
 
     public MieszkanieSpecFactory withNumerDzialki(String numerDzialki){
-        equalsNotNull(numerDzialki, "nrDzialki");
+        equalsIgnoreCaseNotNull(numerDzialki, "nrDzialki");
         return this;
     }
 
     public MieszkanieSpecFactory withNrKsiegiWieczystej(String nrKsiegiWieczystej){
-        equalsNotNull(nrKsiegiWieczystej, "nrKsiegiWieczystej");
+        equalsIgnoreCaseNotNull(nrKsiegiWieczystej, "nrKsiegiWieczystej");
         return this;
     }
 
     public MieszkanieSpecFactory withPrawo(String prawo){
-        equalsNotNull(prawo, "prawo");
+        equalsIgnoreCaseNotNull(prawo, "prawo");
         return this;
     }
 

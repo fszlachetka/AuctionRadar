@@ -5,12 +5,18 @@ export default function HomePage() {
     const [city, setCity] = useState('')
     const navigate = useNavigate()
 
-    const handleSearch = () => {
-        if (city) {
-            navigate(`/apartments?city=${city}`)
-        } else {
-            alert('Wybierz miasto.')
-        }
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        const filter = city.trim() || null;
+
+        navigate('/apartments', {
+            state: {
+                searchFilter: {
+                    miasto: filter
+                }
+            }
+        });
     }
 
     return (
@@ -21,12 +27,16 @@ export default function HomePage() {
 
             <section style={searchSectionStyle}>
                 <h2>Znajdź swoją wymarzoną nieruchomość</h2>
-                <select value={city} onChange={(e) => setCity(e.target.value)} style={selectStyle}>
-                    <option value="">Wybierz miasto</option>
-                    <option value="Warszawa">Warszawa</option>
-                    <option value="Kraków">Kraków</option>
-                </select>
-                <button onClick={handleSearch} style={searchButtonStyle}>Search</button>
+                <form onSubmit={handleSearch} style={formStyle}>
+                    <input
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="Wpisz nazwę miasta..."
+                        style={inputStyle}
+                    />
+                    <button type="submit" style={searchButtonStyle}>Szukaj</button>
+                </form>
             </section>
         </main>
     )
@@ -49,10 +59,17 @@ const searchSectionStyle = {
     marginTop: '2rem',
 }
 
-const selectStyle = {
+const formStyle = {
+    display: 'flex',
+    gap: '1rem',
+    justifyContent: 'center',
+    alignItems: 'center'
+}
+
+const inputStyle = {
     padding: '0.5rem',
     fontSize: '1rem',
-    marginRight: '1rem',
+    width: '300px',
 }
 
 const searchButtonStyle = {

@@ -7,6 +7,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import { filterApartments } from '../api/apartmentApi'
 import { useNavigate } from 'react-router-dom'
 import { useFavorites } from '../hooks/useFavorites'
+import { useLocation } from 'react-router-dom'
 
 export default function ApartmentPage() {
     const { apartments, loading, error, setApartments } = useApartments()
@@ -19,40 +20,73 @@ export default function ApartmentPage() {
     const navigate = useNavigate()
     const [showMap, setShowMap] = useState(false)
     const { favorites, handleToggleFavorite } = useFavorites({ loadFullData: false })
-
-
+    const location = useLocation()
 
     const handleApartmentSelect = (id) => {
         navigate(`/apartments/${id}`)
     }
 
-    const handleFilter = async (filters, sortBy) => {
-        try {
-            const response = await filterApartments(filters)
-            let sortedApartments = [...response.data]
+    useEffect(() => {
+        if (location.state?.searchFilter) {
+            handleFilter(location.state.searchFilter)
+        }
+    }, [])
 
-            switch (sortBy) {
+// w środku komponentu ApartmentPage
+    const handleFilter = async (filters = {}, sortBy) => {
+        try {
+
+            const dto = {
+                kodPocztowy: filters.kodPocztowy || null,
+                miasto: filters.miasto || null,
+                ulica: filters.ulica || null,
+                numer: filters.numer || null,
+                numerMieszkania: filters.numerMieszkania || null,
+                nrDzialki: filters.nrDzialki || null,
+                nrKsiegiWieczystej: filters.nrKsiegiWieczystej || null,
+                minCena: filters.minCena || null,
+                maxCena: filters.maxCena || null,
+                minWadium: filters.minWadium || null,
+                maxWadium: filters.maxWadium || null,
+                minRozmiar: filters.minRozmiar || null,
+                maxRozmiar: filters.maxRozmiar || null,
+                minPokoje: filters.minPokoje || null,
+                maxPokoje: filters.maxPokoje || null,
+                minPietro: filters.minPietro || null,
+                maxPietro: filters.maxPietro || null,
+                hasPiwinca: filters.hasPiwinca || null,
+                prawo: filters.prawo || null,
+                minTerminOgledzin: filters.minTerminOgledzin || null,
+                maxTerminOgledzin: filters.maxTerminOgledzin || null
+            }
+
+            let response = await filterApartments(dto)
+
+            let sortedApartments = [...response.data]
+            switch(sortBy) {
                 case 'price_asc':
-                    sortedApartments.sort((a, b) => a.cena - b.cena)
+                    sortedApartments.sort((a,b) => a.cena - b.cena)
                     break
                 case 'price_desc':
-                    sortedApartments.sort((a, b) => b.cena - a.cena)
+                    sortedApartments.sort((a,b) => b.cena - a.cena)
                     break
                 case 'size_asc':
-                    sortedApartments.sort((a, b) => a.rozmiar - b.rozmiar)
+                    sortedApartments.sort((a,b) => a.rozmiar - b.rozmiar)
                     break
                 case 'size_desc':
-                    sortedApartments.sort((a, b) => b.rozmiar - a.rozmiar)
+                    sortedApartments.sort((a,b) => b.rozmiar - a.rozmiar)
                     break
                 case 'city_asc':
-                    sortedApartments.sort((a, b) => a.miasto.localeCompare(b.miasto))
+                    sortedApartments.sort((a,b) => a.miasto.localeCompare(b.miasto))
                     break
                 case 'city_desc':
-                    sortedApartments.sort((a, b) => b.miasto.localeCompare(a.miasto))
+                    sortedApartments.sort((a,b) => b.miasto.localeCompare(a.miasto))
                     break
             }
 
             setApartments(sortedApartments)
+            setVisibleApartments(sortedApartments)
+
         } catch (err) {
             console.error('Failed to filter apartments:', err)
         }

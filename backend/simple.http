@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "kodPocztowy": "00-001",
-  "miasto": "Świątniki dolne",
+  "miasto": "Warszawa",
   "ulica": "nega",
   "numer": "10",
   "numerMieszkania": "15",
@@ -38,6 +38,26 @@ Content-Type: application/json
   "yCoord": "52.2297"
 }
 
+###
+POST http://localhost:8080/api/mieszkania/create
+Content-Type: application/json
+
+{
+  "kodPocztowy": "33-332",
+  "miasto": "Kraków",
+  "ulica": "Grodzka",
+  "numer": "10",
+  "numerMieszkania": "2",
+  "rozmiar": 50,
+  "pokoje": 3,
+  "pietro": 1,
+  "piwnica": false,
+  "cena": 550000,
+  "wadium": 8000,
+  "terminOgledzin": "2025-09-20T10:00:00",
+  "xCoord": "19.9372",
+  "yCoord": "50.0601"
+}
 ###
 GET http://localhost:8080/api/mieszkania
 
