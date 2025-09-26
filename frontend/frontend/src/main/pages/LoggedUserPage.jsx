@@ -1,29 +1,17 @@
-import { useState, useEffect } from 'react'
-import { getFavorites } from '../api/favoritesApi.js'
+import { useState } from 'react'
+import { useFavorites } from '../hooks/useFavorites'
 import ApartmentList from '../components/ApartmentList.jsx'
 
 export default function LoggedUserPage() {
-    const [favorites, setFavorites] = useState([])
-    const [loading, setLoading] = useState(true)
+    const { favorites, fullFavorites, loading, error, handleToggleFavorite } = useFavorites({ loadFullData: true })
     const [activeTab, setActiveTab] = useState('favorites')
-    const userId = localStorage.getItem('userId')
 
-    useEffect(() => {
-        loadFavorites()
-    }, [])
-
-    const loadFavorites = async () => {
-        try {
-            const response = await getFavorites(userId)
-            setFavorites(response.data)
-            setLoading(false)
-        } catch (err) {
-            console.error('Failed to load favorites:', err)
-            setLoading(false)
-        }
+    const handleApartmentSelect = (id) => {
+        window.location.href = `/apartments/${id}`
     }
 
     if (loading) return <div>Ładowanie...</div>
+    if (error) return <div>Błąd: {error}</div>
 
     return (
         <main style={mainStyle}>
@@ -45,12 +33,12 @@ export default function LoggedUserPage() {
             {activeTab === 'favorites' ? (
                 <section>
                     <h2>Obserwowane nieruchomości</h2>
-                    {favorites.length > 0 ? (
+                    {fullFavorites.length > 0 ? (
                         <ApartmentList
-                            apartments={favorites}
-                            onSelect={() => {}}
-                            onToggleFavorite={loadFavorites}
-                            favorites={favorites.map(f => f.mieszkanieId)}
+                            apartments={fullFavorites}
+                            onSelect={handleApartmentSelect}
+                            onToggleFavorite={handleToggleFavorite}
+                            favorites={favorites}
                         />
                     ) : (
                         <p>Brak obserwowanych nieruchomości</p>

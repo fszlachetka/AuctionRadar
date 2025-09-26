@@ -5,36 +5,25 @@ import ApartmentFilter from '../components/ApartmentFilter'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { filterApartments } from '../api/apartmentApi'
-import { getFavorites, addToFavorites, removeFromFavorites } from '../api/favoritesApi.js'
 import { useNavigate } from 'react-router-dom'
+import { useFavorites } from '../hooks/useFavorites'
 
 export default function ApartmentPage() {
     const { apartments, loading, error, setApartments } = useApartments()
-    const [favorites, setFavorites] = useState([])
+    //const [favorites, setFavorites] = useState([])
     const [visibleApartments, setVisibleApartments] = useState([])
     const mapContainerRef = useRef(null)
     const mapRef = useRef(null)
     const [filterByCluster, setFilterByCluster] = useState(false)
     const isMarkerClickRef = useRef(false)
-    const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
     const [showMap, setShowMap] = useState(false)
+    const { favorites, handleToggleFavorite } = useFavorites({ loadFullData: false })
 
 
-    useEffect(() => {
-        if (userId) loadFavorites()
-    }, [userId])
 
     const handleApartmentSelect = (id) => {
         navigate(`/apartments/${id}`)
-    }
-    const loadFavorites = async () => {
-        try {
-            const response = await getFavorites(userId)
-            setFavorites(response.data.map(f => f.mieszkanieId))
-        } catch (err) {
-            console.error('Failed to load favorites:', err)
-        }
     }
 
     const handleFilter = async (filters, sortBy) => {
@@ -66,28 +55,6 @@ export default function ApartmentPage() {
             setApartments(sortedApartments)
         } catch (err) {
             console.error('Failed to filter apartments:', err)
-        }
-    }
-
-    const handleToggleFavorite = async (mieszkanieId) => {
-        if (!userId) {
-            alert('Zaloguj się, aby obserwować nieruchomość.')
-            return
-        }
-
-        let userIdToInt = parseInt(userId)
-
-        try {
-            if (favorites.includes(mieszkanieId)) {
-                await removeFromFavorites(userIdToInt, mieszkanieId)
-                setFavorites(favorites.filter(id => id !== mieszkanieId))
-            } else {
-                await addToFavorites(userIdToInt, mieszkanieId)
-                setFavorites([...favorites, mieszkanieId])
-            }
-        } catch (err) {
-            console.error('Failed to update favorites:', err)
-            alert('Nie udało się dodać nieruchomości do ulubionych')
         }
     }
 

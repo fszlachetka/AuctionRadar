@@ -7,10 +7,14 @@ export const addToFavorites = (userId, mieszkanieId) => {
     return api.post(`${BASE_URL}/add`, { userId, mieszkanieId });
 };
 
-export const removeFromFavorites = (userId, mieszkanieId) => {
-    return api.remove(`${BASE_URL}/remove`, { userId, mieszkanieId });
+export const removeFromFavorites = async (userId, mieszkanieId) => {
+    return api.delete(`${BASE_URL}/remove`, {
+        data: {
+            userId: userId,
+            mieszkanieId: mieszkanieId
+        }
+    });
 };
-
 export const getFavorites = (userId) => {
     return api.get(`${BASE_URL}/${userId}`);
 };

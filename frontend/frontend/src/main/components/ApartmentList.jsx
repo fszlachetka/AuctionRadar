@@ -10,7 +10,7 @@ export default function ApartmentList({ apartments, onSelect, onToggleFavorite, 
                     <div onClick={() => onSelect(apt.mieszkanieId)}>
                         <h3>{apt.miasto}, {apt.ulica} {apt.numer}/{apt.numerMieszkania}</h3>
                         <div style={detailsStyle}>
-                            <p>Cena: {apt.cena.toLocaleString()} PLN</p>
+                            <p>Cena: {apt.cena?.toLocaleString() || "N/A"} PLN</p>
                             <p>Rozmiar: {apt.rozmiar} m²</p>
                             <p>Pokoje: {apt.pokoje}</p>
                         </div>
