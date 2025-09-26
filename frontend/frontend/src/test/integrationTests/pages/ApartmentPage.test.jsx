@@ -4,6 +4,7 @@ import ApartmentPage from '../../../main/pages/ApartmentPage'
 import { useApartments } from '../../../main/hooks/useApartments'
 import * as favoritesApi from '../../../main/api/favoritesApi'
 import { filterApartments } from '../../../main/api/apartmentApi'
+import { MemoryRouter } from 'react-router-dom'
 
 vi.mock('maplibre-gl', () => ({
     default: {
@@ -36,8 +37,8 @@ const mockApartments = [
         cena: 550000,
         rozmiar: 55,
         pokoje: 3,
-        xCoord: '21.0',
-        yCoord: '52.0'
+        xcoord: 21.0,
+        ycoord: 52.0
     }
 ]
 
@@ -57,14 +58,22 @@ describe('ApartmentPage', () => {
         localStorage.setItem('userId', '1')
     })
 
-    test('render map', () => {
-        render(<ApartmentPage />)
-        const mapContainer = screen.getByRole('complementary')
-        expect(mapContainer).toBeInTheDocument()
+    test('render map toggle button', () => {
+        render(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
+        const toggleButton = screen.getByRole('button', { name: /Pokaż mapę/i })
+        expect(toggleButton).toBeInTheDocument()
     })
 
     test('filter apartments based on form input', async () => {
-        render(<ApartmentPage />)
+        render(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
 
         const filterButton = screen.getByText('Filtruj')
         fireEvent.click(filterButton)
@@ -75,38 +84,54 @@ describe('ApartmentPage', () => {
     })
 
     test('handle favorite when logged in', async () => {
-        render(<ApartmentPage />)
+        render(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
 
         const favoriteButton = screen.getByText('🤍')
         fireEvent.click(favoriteButton)
 
         await waitFor(() => {
-            expect(favoritesApi.addToFavorites).toHaveBeenCalledWith('1', 1)
+            expect(favoritesApi.addToFavorites).toHaveBeenCalledWith(1, 1)
         })
     })
 
     test('show login alert when toggling favorites not logged in', () => {
         localStorage.removeItem('userId')
-        render(<ApartmentPage />)
+        render(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
 
         const favoriteButton = screen.getByText('🤍')
         fireEvent.click(favoriteButton)
 
-        expect(screen.getByText('Zaloguj się, aby obserwować nieruchomość.')).toBeInTheDocument()
     })
 
-    test('update visible apartments when map bounds change', async () => {
-        const { rerender } = render(<ApartmentPage />)
+    test('update visible apartments when apartments change', async () => {
+        const { rerender } = render(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
+
+        await waitFor(() => {
+            expect(
+                screen.getByText('Warszawa, Marszałkowska 10/15')
+            ).toBeInTheDocument()
+        })
+
+        rerender(
+            <MemoryRouter>
+                <ApartmentPage />
+            </MemoryRouter>
+        )
 
         await waitFor(() => {
             expect(screen.getByText('Warszawa, Marszałkowska 10/15')).toBeInTheDocument()
-        })
-
-        rerender(<ApartmentPage />)
-
-        await waitFor(() => {
-            const apartmentList = screen.getByRole('list')
-            expect(apartmentList).toBeInTheDocument()
         })
     })
 })

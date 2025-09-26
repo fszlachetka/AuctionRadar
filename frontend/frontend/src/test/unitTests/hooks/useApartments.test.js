@@ -20,20 +20,14 @@ describe('useApartments', () => {
 
     beforeEach(() => {
         apartmentApi.getAllApartments.mockResolvedValue({ data: mockApartments })
-        apartmentApi.getApartmentById.mockResolvedValue({ data: mockApartments[0] })
     })
 
-    test('loads apartments on mount', async () => {
+    test('loads empty apartments', async () => {
         const { result } = renderHook(() => useApartments())
 
-        expect(result.current.loading).toBe(true)
-
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 0))
-        })
-
-        expect(result.current.apartments).toEqual(mockApartments)
+        expect(result.current.apartments).toEqual([])
         expect(result.current.loading).toBe(false)
+
     })
 
     test('handles load error correctly', async () => {
@@ -42,20 +36,10 @@ describe('useApartments', () => {
         const { result } = renderHook(() => useApartments())
 
         await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 0))
+            await result.current.loadApartments()
         })
 
         expect(result.current.error).toBe('Failed to load apartments')
         expect(result.current.loading).toBe(false)
-    })
-
-    test('selects apartment by id', async () => {
-        const { result } = renderHook(() => useApartments())
-
-        await act(async () => {
-            await result.current.selectApartment(1)
-        })
-
-        expect(result.current.selectedApartment).toEqual(mockApartments[0])
     })
 })

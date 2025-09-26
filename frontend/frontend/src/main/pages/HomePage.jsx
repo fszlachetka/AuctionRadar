@@ -8,7 +8,7 @@ export default function HomePage() {
     const handleSearch = (e) => {
         e.preventDefault();
 
-        const filter = city.trim() || null;
+        const filter = city.trim();
 
         navigate('/apartments', {
             state: {

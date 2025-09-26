@@ -17,17 +17,19 @@ describe('ApartmentList', () => {
 
     test('renders apartment cards', () => {
         const onSelect = vi.fn()
-        render(<ApartmentList apartments={mockApartments} onSelect={onSelect} />)
+        const onToggleFavorite = vi.fn()
+        render(<ApartmentList apartments={mockApartments} onSelect={onSelect} onToggleFavorite={onToggleFavorite} favorites={[]} />)
 
         expect(screen.getByText('Warszawa, Marszałkowska 10/15')).toBeInTheDocument()
-        expect(screen.getByText('Price: 550,000 PLN')).toBeInTheDocument()
-        expect(screen.getByText('Size: 55 m²')).toBeInTheDocument()
-        expect(screen.getByText('Rooms: 3')).toBeInTheDocument()
+        expect(screen.getByText('Cena: 550,000 PLN')).toBeInTheDocument()
+        expect(screen.getByText('Rozmiar: 55 m²')).toBeInTheDocument()
+        expect(screen.getByText('Pokoje: 3')).toBeInTheDocument()
     })
 
     test('calls onSelect with correct id when clicked', () => {
         const onSelect = vi.fn()
-        render(<ApartmentList apartments={mockApartments} onSelect={onSelect} />)
+        const onToggleFavorite = vi.fn()
+        render(<ApartmentList apartments={mockApartments} onSelect={onSelect} onToggleFavorite={onToggleFavorite} favorites={[]} />)
 
         fireEvent.click(screen.getByText('Warszawa, Marszałkowska 10/15'))
         expect(onSelect).toHaveBeenCalledWith(1)

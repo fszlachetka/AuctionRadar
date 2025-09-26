@@ -1,4 +1,3 @@
-// frontend/frontend/src/test/unitTests/hooks/useUserManager.test.js
 import { renderHook, act } from '@testing-library/react'
 import { useUserManager } from '../../../main/hooks/useUserManager'
 
@@ -7,7 +6,7 @@ vi.mock('../../../main/api/userApi', async () => {
     return {
         ...actual,
         createUser: vi.fn(),
-        getUserByLogin: vi.fn()
+        loginUser: vi.fn()
     }
 })
 import * as userApi from '../../../main/api/userApi'
@@ -15,11 +14,12 @@ import * as userApi from '../../../main/api/userApi'
 describe('useUserManager', () => {
     beforeEach(() => {
         window.alert = vi.fn()
+        window.location.href = ''
+        localStorage.clear()
     })
 
     test('calls createUser with correct values', async () => {
-        const mockCreate = vi.fn().mockResolvedValue({})
-        userApi.createUser.mockImplementation(mockCreate)
+        userApi.createUser.mockResolvedValue({})
         const { result } = renderHook(() => useUserManager())
 
         act(() => {
@@ -31,13 +31,20 @@ describe('useUserManager', () => {
             await result.current.handleCreate()
         })
 
-        expect(mockCreate).toHaveBeenCalledWith({ login: 'janek', passwd: 'secret123' })
+        expect(userApi.createUser).toHaveBeenCalledWith({ login: 'janek', passwd: 'secret123' })
+        expect(window.alert).toHaveBeenCalledWith('Użytkownik dodany pomyślnie!')
     })
 
-    test('validates user login with correct password', async () => {
-        const mockUser = { login: 'janek', passwd: 'secret123' }
-        userApi.getUserByLogin.mockResolvedValue({ data: mockUser })
+    test('calls loginUser and sets foundUser on successful login', async () => {
+        const mockResponse = {
+            data: { accessToken: 'abc', refreshToken: 'xyz', userId: 1 }
+        }
+        userApi.loginUser.mockResolvedValue(mockResponse)
+
         const { result } = renderHook(() => useUserManager())
+
+        delete window.location
+        window.location = { href: '' }
 
         act(() => {
             result.current.setFoundLogin('janek')
@@ -45,15 +52,18 @@ describe('useUserManager', () => {
         })
 
         await act(async () => {
-            await result.current.handleFind()
+            await result.current.handleLogin()
         })
 
-        expect(result.current.foundUser).toEqual(mockUser)
+        expect(userApi.loginUser).toHaveBeenCalledWith('janek', 'secret123')
+        expect(result.current.foundUser).toEqual({ login: 'janek' })
+        expect(localStorage.getItem('login')).toBe('janek')
+        expect(localStorage.getItem('userId')).toBe('1')
+        expect(window.location.href).toBe('/logged')
     })
 
-    test('rejects login with incorrect password', async () => {
-        const mockUser = { login: 'janek', passwd: 'secret123' }
-        userApi.getUserByLogin.mockResolvedValue({ data: mockUser })
+    test('alerts on login with invalid credentials', async () => {
+        userApi.loginUser.mockRejectedValue(new Error('Invalid credentials'))
         const { result } = renderHook(() => useUserManager())
 
         act(() => {
@@ -62,10 +72,10 @@ describe('useUserManager', () => {
         })
 
         await act(async () => {
-            await result.current.handleFind()
+            await result.current.handleLogin()
         })
 
-        expect(window.alert).toHaveBeenCalledWith('Invalid password')
+        expect(window.alert).toHaveBeenCalledWith('Nieprawidłowe dane logowania')
         expect(result.current.foundUser).toBeNull()
     })
 })

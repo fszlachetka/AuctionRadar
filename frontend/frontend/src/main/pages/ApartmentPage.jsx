@@ -29,10 +29,10 @@ export default function ApartmentPage() {
     useEffect(() => {
         if (location.state?.searchFilter) {
             handleFilter(location.state.searchFilter)
+        } else {
+            handleFilter({})
         }
-    }, [])
-
-// w środku komponentu ApartmentPage
+    }, [location.state])
     const handleFilter = async (filters = {}, sortBy) => {
         try {
 

@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react'
-import { getAllApartments, getApartmentById } from '../api/apartmentApi'
-
+import { useState } from 'react'
 export function useApartments() {
     const [apartments, setApartments] = useState([])
-    const [selectedApartment, setSelectedApartment] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    useEffect(() => {
-        loadApartments()
-    }, [])
-
-    const loadApartments = async () => {
+    const loadApartments = async (filters = null) => {
+        setLoading(true)
         try {
-            const response = await getAllApartments()
+            const response = filters ?
+                await filterApartments(filters) :
+                await getAllApartments()
             setApartments(response.data)
-            setLoading(false)
+            setError(null)
         } catch (err) {
             setError('Failed to load apartments')
+        } finally {
             setLoading(false)
         }
     }
 
     return {
         apartments,
-        selectedApartment,
         loading,
         error,
-        setApartments
+        setApartments,
+        loadApartments
     }
 }
