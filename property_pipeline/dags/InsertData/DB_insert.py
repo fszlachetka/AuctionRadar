@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 from ScrapData.Property_Data import PropertyData
 
@@ -13,17 +13,17 @@ class Mieszkanie(Base):
     ulica = Column(String, nullable=False)
     miasto = Column(String, nullable=False)
     kod_pocztowy = Column(String, nullable=True)
-    wywolawcza = Column(Integer, nullable=False)
-    ksiegawieczysta = Column(String(15), nullable=False)
+    cena = Column(Integer, nullable=False)
+    nr_ksiegi_wieczystej = Column(String(15), nullable=False)
     wadium = Column(Integer, nullable=False)
     pietro = Column(Integer, nullable=False)
     termin_ogledzin = Column(DateTime, nullable=False)
-    piwnica = Column(Integer, nullable=True)
+    piwnica = Column(Boolean, nullable=True)
     inne = Column(String, nullable=True)
-    dzialka_nr = Column(String, nullable=True)
+    nr_dzialki = Column(String, nullable=True)
     prawo = Column(String, nullable=True)
-    xCoord = Column(String, nullable=True)
-    yCoord = Column(String, nullable=True)
+    x_coord = Column(String, nullable=True)
+    y_coord = Column(String, nullable=True)
 
 
 # TODO: zmienne srodowiskowe
@@ -59,17 +59,17 @@ def insert_property(prop: PropertyData):
             ulica=prop.ulica,
             miasto=prop.miasto,
             kod_pocztowy=prop.kod_pocztowy,
-            wywolawcza=prop.wywolawcza,
-            ksiegawieczysta=prop.nr_ksiegi_wieczystej,
+            cena=prop.cena,
+            nr_ksiegi_wieczystej=prop.nr_ksiegi_wieczystej,
             wadium=prop.wadium,
             pietro=prop.pietro,
             termin_ogledzin=prop.termin_ogledzin,
             piwnica=prop.piwnica,
             inne=prop.inne,
-            dzialka_nr=prop.nr_dzialki,
+            nr_dzialki=prop.nr_dzialki,
             prawo=prop.prawo,
-            xCoord=prop.xCoord,
-            yCoord=prop.yCoord,
+            x_coord=prop.xCoord,
+            y_coord=prop.yCoord,
         )
         session.add(mieszkanie)
         session.commit()

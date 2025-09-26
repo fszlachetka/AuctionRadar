@@ -67,10 +67,10 @@ public class Mieszkanie {
     @Column(name="termin_ogledzin")
     private Timestamp terminOgledzin;
 
-    @Column(name="xCoord")
+    @Column(name="x_coord")
     private String xCoord;
 
-    @Column(name="yCoord")
+    @Column(name="y_coord")
     private String yCoord;
 
     @OneToMany(mappedBy = "mieszkanie", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

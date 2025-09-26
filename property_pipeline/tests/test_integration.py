@@ -55,8 +55,8 @@ def mock_property_data():
             "ulica": fake.street_name(),
             "miasto": fake.city(),
             "kod_pocztowy": fake.postcode(),
-            "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
-            "ksiegawieczysta": "WL1A/00272852/9",  # Valid księga wieczysta
+            "cena": str(fake.random_int(min=100000, max=1000000)),
+            "nr_ksiegi_wieczystej": "WL1A/00272852/9",  # Valid księga wieczysta
             "wadium": str(fake.random_int(min=1000, max=10000)),
             "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
             "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
@@ -83,8 +83,8 @@ def mock_property_data_list():
                 "ulica": fake.street_name(),
                 "miasto": fake.city(),
                 "kod_pocztowy": fake.postcode(),
-                "wywolawcza": str(fake.random_int(min=100000, max=1000000)),
-                "ksiegawieczysta": "WL1A/00272852/9",
+                "cena": str(fake.random_int(min=100000, max=1000000)),
+                "nr_ksiegi_wieczystej": "WL1A/00272852/9",
                 "wadium": str(fake.random_int(min=1000, max=10000)),
                 "pietro": fake.random_element(elements=("parter", "1", "2", "3", "4", "5")),
                 "termin_ogledzin": fake.date_time_between(start_date='+1d', end_date='+30d').strftime("%Y-%m-%d %H:%M:%S"),
@@ -115,7 +115,7 @@ class TestDataProcessorIntegration:
         assert prop.ulica is not None
         assert prop.miasto is not None
         assert prop.kod_pocztowy is not None
-        assert prop.wywolawcza > 0
+        assert prop.cena > 0
         assert prop.wadium > 0
         assert prop.pietro >= 0
         assert prop.termin_ogledzin is not None
@@ -253,8 +253,8 @@ class TestFullPipelineIntegration:
         assert result.ulica == prop.ulica
         assert result.miasto == prop.miasto
         assert result.kod_pocztowy == prop.kod_pocztowy
-        assert result.wywolawcza == prop.wywolawcza
-        assert result.ksiegawieczysta == prop.nr_ksiegi_wieczystej
+        assert result.cena == prop.cena
+        assert result.nr_ksiegi_wieczystej == prop.nr_ksiegi_wieczystej
         assert result.wadium == prop.wadium
         assert result.pietro == prop.pietro
         assert result.termin_ogledzin == prop.termin_ogledzin
@@ -304,8 +304,8 @@ class TestFullPipelineIntegration:
                     "ulica": "Testowa 1",
                     "miasto": "Kraków",
                     "kod_pocztowy": "31-000",
-                    "wywolawcza": "100000",
-                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "cena": "100000",
+                    "nr_ksiegi_wieczystej": "WL1A/00272852/9",
                     "wadium": "5000",
                     "pietro": "parter",
                     "termin_ogledzin": "2025-05-15",
@@ -343,8 +343,8 @@ class TestFullPipelineIntegration:
                     "ulica": "Kwiatowa 2",
                     "miasto": "Warszawa",
                     "kod_pocztowy": "02-123",
-                    "wywolawcza": "200000",
-                    "ksiegawieczysta": "WA1W/00012345/6",
+                    "cena": "200000",
+                    "nr_ksiegi_wieczystej": "WA1W/00012345/6",
                     "wadium": "10000",
                     "pietro": "1",
                     "termin_ogledzin": "2025-06-20 12:00:00",
@@ -394,8 +394,8 @@ class TestDataValidationIntegration:
                     "ulica": "Testowa 1",
                     "miasto": "Kraków",
                     "kod_pocztowy": "31-000",
-                    "wywolawcza": "100000",
-                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "cena": "100000",
+                    "nr_ksiegi_wieczystej": "WL1A/00272852/9",
                     "wadium": "5000",
                     "pietro": "parter",
                     "termin_ogledzin": "2025-05-15",
@@ -414,8 +414,8 @@ class TestDataValidationIntegration:
                     "ulica": "Kwiatowa 2",
                     "miasto": "Warszawa",
                     "kod_pocztowy": "02-123",
-                    "wywolawcza": "200000",
-                    "ksiegawieczysta": "INVALID/123456/7",
+                    "cena": "200000",
+                    "nr_ksiegi_wieczystej": "INVALID/123456/7",
                     "wadium": "10000",
                     "pietro": "1",
                     "termin_ogledzin": "2025-06-20 12:00:00",
@@ -446,9 +446,9 @@ class TestDataValidationIntegration:
         results = db_session.query(Mieszkanie).filter(Mieszkanie.mieszkanie_id.in_(inserted_ids)).all()
         assert len(results) == 2
         
-        valid_ksiega = [r for r in results if r.ksiegawieczysta == "WL1A/00272852/9"]
-        invalid_ksiega = [r for r in results if r.ksiegawieczysta == "0000/00000000/0"]
-        
+        valid_ksiega = [r for r in results if r.nr_ksiegi_wieczystej == "WL1A/00272852/9"]
+        invalid_ksiega = [r for r in results if r.nr_ksiegi_wieczystej == "0000/00000000/0"]
+
         assert len(valid_ksiega) == 1
         assert len(invalid_ksiega) == 1
 
@@ -466,8 +466,8 @@ class TestDataValidationIntegration:
                     "ulica": "Testowa 1",
                     "miasto": "Kraków",
                     "kod_pocztowy": "31 133",
-                    "wywolawcza": "100000",
-                    "ksiegawieczysta": "WL1A/00272852/9",
+                    "cena": "100000",
+                    "nr_ksiegi_wieczystej": "WL1A/00272852/9",
                     "wadium": "5000",
                     "pietro": "parter",
                     "termin_ogledzin": "2025-05-15",
@@ -493,4 +493,3 @@ class TestDataValidationIntegration:
         
         result = db_session.query(Mieszkanie).filter_by(mieszkanie_id=mieszkanie_id).first()
         assert result.kod_pocztowy == "31-133"
-

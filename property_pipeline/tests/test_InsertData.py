@@ -53,7 +53,7 @@ def sample_property_data():
         ulica="Testowa 1",
         miasto="Kraków",
         kod_pocztowy="30-001",
-        wywolawcza=200000,
+        cena=200000,
         nr_ksiegi_wieczystej="KR1P/123456/7",
         wadium=2000,
         pietro=3,
@@ -79,7 +79,7 @@ def multiple_property_data():
             ulica="Testowa 1",
             miasto="Kraków",
             kod_pocztowy="30-001",
-            wywolawcza=200000,
+            cena=200000,
             nr_ksiegi_wieczystej="KR1P/123456/7",
             wadium=2000,
             pietro=3,
@@ -97,7 +97,7 @@ def multiple_property_data():
             ulica="Kwiatowa 15",
             miasto="Warszawa",
             kod_pocztowy="02-123",
-            wywolawcza=350000,
+            cena=350000,
             nr_ksiegi_wieczystej="WA1W/00012345/6",
             wadium=5000,
             pietro=1,
@@ -115,7 +115,7 @@ def multiple_property_data():
             ulica="Główna 3",
             miasto="Gdańsk",
             kod_pocztowy="80-001",
-            wywolawcza=150000,
+            cena=150000,
             nr_ksiegi_wieczystej="GD1G/00098765/4",
             wadium=1500,
             pietro=0,
@@ -147,8 +147,8 @@ class TestDatabaseSchema:
             column_names = [col[0] for col in columns]
             expected_columns = [
                 'mieszkanie_id', 'rozmiar', 'pokoje', 'ulica', 'miasto',
-                'kod_pocztowy', 'wywolawcza', 'ksiegawieczysta', 'wadium',
-                'pietro', 'termin_ogledzin', 'piwnica', 'inne', 'dzialka_nr', 'prawo'
+                'kod_pocztowy', 'cena', 'nr_ksiegi_wieczystej', 'wadium',
+                'pietro', 'termin_ogledzin', 'piwnica', 'inne', 'nr_dzialki', 'prawo'
             ]
             
             for expected_col in expected_columns:
@@ -202,14 +202,14 @@ class TestDataInsertion:
         assert result.ulica == sample_property_data.ulica
         assert result.miasto == sample_property_data.miasto
         assert result.kod_pocztowy == sample_property_data.kod_pocztowy
-        assert result.wywolawcza == sample_property_data.wywolawcza
-        assert result.ksiegawieczysta == sample_property_data.nr_ksiegi_wieczystej
+        assert result.cena == sample_property_data.cena
+        assert result.nr_ksiegi_wieczystej == sample_property_data.nr_ksiegi_wieczystej
         assert result.wadium == sample_property_data.wadium
         assert result.pietro == sample_property_data.pietro
         assert result.termin_ogledzin == sample_property_data.termin_ogledzin
         assert result.piwnica == sample_property_data.piwnica
         assert result.inne == sample_property_data.inne
-        assert result.dzialka_nr == sample_property_data.nr_dzialki
+        assert result.nr_dzialki == sample_property_data.nr_dzialki
         assert result.prawo == sample_property_data.prawo
 
     def test_insert_multiple_properties(self, db_session, test_engine, multiple_property_data):
@@ -244,7 +244,7 @@ class TestDataInsertion:
             ulica="Testowa 2",
             miasto="Poznań",
             kod_pocztowy="60-001",
-            wywolawcza=250000,
+            cena=250000,
             nr_ksiegi_wieczystej="PO1P/00011111/2",
             wadium=3000,
             pietro=2,
@@ -264,7 +264,7 @@ class TestDataInsertion:
         result = db_session.query(Mieszkanie).filter_by(mieszkanie_id=mieszkanie_id).first()
         assert result.piwnica is None
         assert result.inne is None
-        assert result.dzialka_nr is None
+        assert result.nr_dzialki is None
         assert result.prawo is None
 
     def test_auto_increment_behavior(self, db_session, test_engine, sample_property_data):
@@ -282,7 +282,7 @@ class TestDataInsertion:
             ulica="Irysowa 5",
             miasto="Wrocław",
             kod_pocztowy="50-001",
-            wywolawcza=300000,
+            cena=300000,
             nr_ksiegi_wieczystej="WR1W/00022222/3",
             wadium=4000,
             pietro=1,
@@ -313,7 +313,7 @@ class TestDataIntegrity:
             ulica="Testowa",
             miasto="Test",
             kod_pocztowy="00-000",
-            wywolawcza=100000,
+            cena=100000,
             nr_ksiegi_wieczystej="TE1T/00000000/0",
             wadium=1000,
             pietro=1,
@@ -341,7 +341,7 @@ class TestDataIntegrity:
             ulica="Testowa 1",
             miasto="Kraków",
             kod_pocztowy="30-001",
-            wywolawcza=200000,
+            cena=200000,
             nr_ksiegi_wieczystej="KR1P/123456/7",
             wadium=2000,
             pietro=3,
@@ -360,7 +360,7 @@ class TestDataIntegrity:
         result = db_session.query(Mieszkanie).filter_by(mieszkanie_id=mieszkanie_id).first()
         assert isinstance(result.rozmiar, float)
         assert isinstance(result.pokoje, int)
-        assert isinstance(result.wywolawcza, int)
+        assert isinstance(result.cena, int)
         assert isinstance(result.wadium, int)
         assert isinstance(result.pietro, int)
         assert isinstance(result.piwnica, int)

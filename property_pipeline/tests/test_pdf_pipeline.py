@@ -30,8 +30,8 @@ def test_extract_text_and_gpt_on_valid_pdf():
     assert data["ulica"] == "Buchenwaldczyków 3"
     assert data["miasto"] == "Zabrze"
     assert data["kod_pocztowy"] == "41-807"
-    assert data["wywolawcza"] == 74533
-    assert data["ksiegawieczysta"] == "GL1Z/00033323/3"
+    assert data["cena"] == 74533
+    assert data["nr_ksiegi_wieczystej"] == "GL1Z/00033323/3"
     assert data["wadium"] == 11180
     assert data["piwnica"] is True
 
@@ -61,13 +61,13 @@ def test_extract_text_and_gpt_on_invalid_pdf():
     assert data["ulica"] is None
     assert data["miasto"] is None
     assert data["kod_pocztowy"] is None
-    assert data["wywolawcza"] is None
-    assert data["ksiegawieczysta"] is None
+    assert data["cena"] is None
+    assert data["nr_ksiegi_wieczystej"] is None
     assert data["wadium"] is None
     assert data["pietro"] is None
     assert data["termin_ogledzin"] is None
     assert data["piwnica"] is None
-    assert data["dzialka_nr"] is None
+    assert data["nr_dzialki"] is None
     assert data["prawo"] is None
     assert data["inne"] is None
 

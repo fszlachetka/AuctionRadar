@@ -121,7 +121,7 @@ def test_data_processor_valid_data():
                 "ulica": "Główna",
                 "miasto": "Kraków",
                 "kod_pocztowy": "31-000",
-                "wywolawcza": "100000",
+                "cena": "100000",
                 "ksiegawieczysta": "WL1A/00272852/9",
                 "wadium": "5000",
                 "pietro": "parter",
@@ -141,7 +141,7 @@ def test_data_processor_valid_data():
                 "ulica": "Kwiatowa",
                 "miasto": "Warszawa",
                 "kod_pocztowy": "02-123",
-                "wywolawcza": "200000",
+                "cena": "200000",
                 "ksiegawieczysta": "WA1W/00012345/6",
                 "wadium": "10000",
                 "pietro": "1",
@@ -227,7 +227,7 @@ def test_data_processor_invalid_data():
     assert prop.ulica == ""
     assert prop.miasto is None
     assert prop.kod_pocztowy is None
-    assert prop.wywolawcza == 0
+    assert prop.cena == 0
     assert prop.nr_ksiegi_wieczystej == "0000/00000000/0"
     assert prop.wadium == 0
     assert prop.pietro == 0
@@ -271,5 +271,3 @@ def test_get_coordinates_from_address():
     xCoord, yCoord = get_coordinates_from_address("ul. Testowa", "")
     assert xCoord is None
     assert yCoord is None
-
-

@@ -10,7 +10,7 @@ class PropertyData:
     ulica: str
     miasto: str
     kod_pocztowy: Optional[str]
-    wywolawcza: int
+    cena: int
     nr_ksiegi_wieczystej: str
     wadium: int
     pietro: int
