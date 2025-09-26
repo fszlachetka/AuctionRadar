@@ -102,7 +102,7 @@ def test_full_pdf_to_property_data_pipeline():
     assert prop.ulica == "Buchenwaldczyków 3"
     assert prop.miasto == "Zabrze"
     assert prop.kod_pocztowy == "41-807"
-    assert prop.wywolawcza == 74533
+    assert prop.cena == 74533
     assert prop.nr_ksiegi_wieczystej == "GL1Z/00033323/3"
     assert prop.wadium == 11180
     assert prop.piwnica == 1

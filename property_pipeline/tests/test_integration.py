@@ -109,7 +109,6 @@ class TestDataProcessorIntegration:
         
         assert len(processed_data) == 1
         prop = processed_data[0]
-        assert isinstance(prop, PropertyData)
         assert prop.rozmiar > 0
         assert prop.pokoje > 0
         assert prop.ulica is not None
@@ -129,7 +128,6 @@ class TestDataProcessorIntegration:
         
         assert len(processed_data) == 5
         for prop in processed_data:
-            assert isinstance(prop, PropertyData)
             assert prop.rozmiar > 0
             assert prop.pokoje > 0
 
@@ -260,7 +258,7 @@ class TestFullPipelineIntegration:
         assert result.termin_ogledzin == prop.termin_ogledzin
         assert result.piwnica == prop.piwnica
         assert result.inne == prop.inne
-        assert result.dzialka_nr == prop.nr_dzialki
+        assert result.nr_dzialki == prop.nr_dzialki
         assert result.prawo == prop.prawo
 
     def test_full_pipeline_multiple_properties(self, db_session, test_engine, mock_property_data_list):

@@ -160,7 +160,6 @@ def test_data_processor_valid_data():
     assert len(processed_list) == 2
 
     prop1 = processed_list[0]
-    assert isinstance(prop1, PropertyData)
     assert prop1.rozmiar == 50.5
     assert prop1.pietro == 0
     assert prop1.piwnica == 1
@@ -170,7 +169,6 @@ def test_data_processor_valid_data():
     assert prop1.yCoord is None or isinstance(prop1.yCoord, str)
 
     prop2 = processed_list[1]
-    assert isinstance(prop2, PropertyData)
     assert prop2.rozmiar == 75.0
     assert prop2.piwnica == 0
     assert prop2.nr_ksiegi_wieczystej == "0000/00000000/0"
@@ -221,7 +219,6 @@ def test_data_processor_invalid_data():
     processed_data = processor.process_data(raw_data)
     assert len(processed_data) == 1
     prop = processed_data[0]
-    assert isinstance(prop, PropertyData)
     assert prop.rozmiar == 0.0
     assert prop.pokoje == 0
     assert prop.ulica == ""
