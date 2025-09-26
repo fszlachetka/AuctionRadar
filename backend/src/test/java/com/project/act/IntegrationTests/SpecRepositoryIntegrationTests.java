@@ -3,6 +3,7 @@ package com.project.act.IntegrationTests;
 import com.project.act.Entities.Mieszkanie;
 import com.project.act.Repositories.MieszkanieRepository;
 import com.project.act.Specs.MieszkanieSpecFactory;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Transactional
 @Sql("classpath:test-data.sql")
 public class SpecRepositoryIntegrationTests {
 
