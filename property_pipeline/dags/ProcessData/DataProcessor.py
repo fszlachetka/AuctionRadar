@@ -5,7 +5,7 @@ from datetime import datetime
 import re
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
-from dags.ScrapData.Property_Data import PropertyData
+from ScrapData.Property_Data import PropertyData
 import json
 
 logger = logging.getLogger(__name__)

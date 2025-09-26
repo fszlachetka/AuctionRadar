@@ -1,5 +1,5 @@
-from dags.ScrapData.Scraper import Scraper
-from dags.ScrapData.scrape_utils import fetch_urls, download_final_links as utils_download_final_links
+from ScrapData.Scraper import Scraper
+from ScrapData.scrape_utils import fetch_urls, download_final_links as utils_download_final_links
 
 class PropertyScraper(Scraper):
     def download_final_links(self):

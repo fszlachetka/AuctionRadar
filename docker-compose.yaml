@@ -114,9 +114,16 @@ services:
       - ./property_pipeline/dags:/opt/airflow/dags
       - ./property_pipeline/logs:/opt/airflow/logs
       - ./property_pipeline/plugins:/opt/airflow/plugins
-    command: scheduler
+      - ./property_pipeline/requirements.txt:/tmp/requirements.txt
+    command: >
+      bash -c "
+        pip install -r /tmp/requirements.txt &&
+        airflow scheduler
+      "
     networks:
       - project_network
+    env_file:
+      - ./property_pipeline/.env
 
   airflow-worker:
     image: apache/airflow:2.9.1-python3.10
@@ -133,9 +140,16 @@ services:
       - ./property_pipeline/dags:/opt/airflow/dags
       - ./property_pipeline/logs:/opt/airflow/logs
       - ./property_pipeline/plugins:/opt/airflow/plugins
-    command: celery worker
+      - ./property_pipeline/requirements.txt:/tmp/requirements.txt
+    command: >
+      bash -c "
+        pip install -r /tmp/requirements.txt &&
+        airflow celery worker
+      "
     networks:
       - project_network
+    env_file:
+      - ./property_pipeline/.env
 
   airflow-init:
     image: apache/airflow:2.9.1-python3.10

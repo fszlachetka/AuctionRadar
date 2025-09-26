@@ -4,7 +4,7 @@ import openai
 from urllib.parse import urljoin
 from PyPDF2 import PdfReader
 import os
-from dags.ScrapData.sources import urls, prompt_template
+from ScrapData.sources import urls, prompt_template
 from dotenv import load_dotenv
 import ast
 
