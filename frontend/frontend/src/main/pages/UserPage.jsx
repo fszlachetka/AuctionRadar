@@ -1,5 +1,4 @@
 import { useUserManager } from '../hooks/useUserManager.js'
-import UserCard from '../components/UserCard'
 
 export default function UserPage({ setIsLoggedIn }) {
     const {
@@ -11,7 +10,6 @@ export default function UserPage({ setIsLoggedIn }) {
         setFoundLogin,
         foundPasswd,
         setFoundPasswd,
-        foundUser,
         handleCreate,
         handleLogin
     } = useUserManager()
@@ -64,13 +62,6 @@ export default function UserPage({ setIsLoggedIn }) {
                         </button>
                     </div>
                 </section>
-
-                {foundUser && (
-                    <section style={sectionStyle}>
-                        <h2>Logged User</h2>
-                        <UserCard user={foundUser} />
-                    </section>
-                )}
             </div>
         </main>
     )

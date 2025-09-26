@@ -15,7 +15,7 @@ export const getAllApartments = () => {
 
 export const getApartmentById = (id) => {
     if (USE_MOCKS === true) {
-        console.log('Using mock apartments dataaa')
+        console.log('Using mock apartment by ID data')
         const apartment = mockApartments.find((apt) => apt.mieszkanieId === id)
         return Promise.resolve({ data: apartment })
     }

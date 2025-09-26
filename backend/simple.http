@@ -77,3 +77,14 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/obserwowane/1
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ6b2ZjaWEiLCJleHAiOjE3NTgwOTk2ODR9.yRKY0q6351Q6xlPi7lmhLXDw6_8bhZ7cUAm1sUTUpSumR5FjOF8sdcWs31H3PWvL
+
+###
+POST http://localhost:8080/api/user/change-password
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ6b2ZjaWEiLCJleHAiOjE3NTgwOTk2ODR9.yRKY0q6351Q6xlPi7lmhLXDw6_8bhZ7cUAm1sUTUpSumR5FjOF8sdcWs31H3PWvL
+Content-Type: application/json
+
+{
+  "login": "zofcia2",
+  "oldPassword": "slo",
+  "newPassword": "nowe"
+}

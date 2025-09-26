@@ -2,13 +2,13 @@ package com.project.act.Services;
 
 import com.project.act.DTOs.UserDTO;
 import com.project.act.DTOs.UserGetDTO;
+import com.project.act.DTOs.PasswordChangeDTO;
 import com.project.act.Entities.User;
 import com.project.act.Exceptions.UserAlreadyExistsException;
 import com.project.act.Exceptions.UserNotFoundException;
 import com.project.act.Mappers.UserMapper;
 import com.project.act.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +60,18 @@ public class UserService {
 
     public boolean checkPassword(String rawPassword, String encodedPassword){
         return passwordEncoder.matches(rawPassword,encodedPassword);
+    }
+
+    public void changePassword(PasswordChangeDTO dto) {
+        User user = userRepository.findByLogin(dto.getLogin())
+                .orElseThrow(() -> new UserNotFoundException(dto.getLogin()));
+
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPasswd())) {
+            throw new RuntimeException("Invalid old password");
+        }
+
+        user.setPasswd(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(user);
     }
 
 }

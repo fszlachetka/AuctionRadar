@@ -38,6 +38,7 @@ export function useUserManager() {
             const { accessToken, refreshToken } = response.data
             saveTokens({ accessToken, refreshToken })
             localStorage.setItem('userId', response.data.userId)
+            localStorage.setItem('login', foundLogin)
             setFoundUser({ login: foundLogin })
             setFoundPasswd('')
             window.location.href = '/logged'

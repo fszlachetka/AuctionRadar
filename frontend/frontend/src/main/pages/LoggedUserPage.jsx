@@ -1,13 +1,45 @@
 import { useState } from 'react'
 import { useFavorites } from '../hooks/useFavorites'
 import ApartmentList from '../components/ApartmentList.jsx'
+import { changePassword } from '../api/userApi'
 
 export default function LoggedUserPage() {
     const { favorites, fullFavorites, loading, error, handleToggleFavorite } = useFavorites({ loadFullData: true })
     const [activeTab, setActiveTab] = useState('favorites')
 
+    const [passwordForm, setPasswordForm] = useState({
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    })
+    const [message, setMessage] = useState('')
+
     const handleApartmentSelect = (id) => {
         window.location.href = `/apartments/${id}`
+    }
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault()
+
+        if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+            setMessage('Hasła nie są identyczne')
+            return
+        }
+
+        try {
+            const login = localStorage.getItem('login')
+
+            await changePassword(login, passwordForm.oldPassword, passwordForm.newPassword)
+            setMessage('Hasło zostało zmienione')
+            setPasswordForm({
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            })
+        } catch (error) {
+            console.error(error)
+            setMessage(error.response?.data || 'Wystąpił błąd')
+        }
     }
 
     if (loading) return <div>Ładowanie...</div>
@@ -47,24 +79,40 @@ export default function LoggedUserPage() {
             ) : (
                 <section style={sectionStyle}>
                     <h2>Ustawienia konta</h2>
-                    <form style={formStyle}>
+                    <form onSubmit={handlePasswordChange} style={formStyle}>
+                        <h3>Zmiana hasła</h3>
+                        {message && <p style={messageStyle}>{message}</p>}
                         <div>
-                            <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" style={inputStyle} />
-                        </div>
-                        <div>
-                            <label htmlFor="phone">Telefon:</label>
-                            <input type="tel" id="phone" style={inputStyle} />
-                        </div>
-                        <div>
-                            <label htmlFor="birthdate">Data urodzenia:</label>
-                            <input type="date" id="birthdate" style={inputStyle} />
+                            <label htmlFor="oldPassword">Obecne hasło:</label>
+                            <input
+                                type="password"
+                                id="oldPassword"
+                                value={passwordForm.oldPassword}
+                                onChange={(e) => setPasswordForm({ ...passwordForm, oldPassword: e.target.value })}
+                                style={inputStyle}
+                            />
                         </div>
                         <div>
                             <label htmlFor="newPassword">Nowe hasło:</label>
-                            <input type="password" id="newPassword" style={inputStyle} />
+                            <input
+                                type="password"
+                                id="newPassword"
+                                value={passwordForm.newPassword}
+                                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                                style={inputStyle}
+                            />
                         </div>
-                        <button type="submit" style={buttonStyle}>Zapisz zmiany</button>
+                        <div>
+                            <label htmlFor="confirmPassword">Potwierdź nowe hasło:</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                value={passwordForm.confirmPassword}
+                                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                                style={inputStyle}
+                            />
+                        </div>
+                        <button type="submit" style={buttonStyle}>Zmień hasło</button>
                     </form>
                 </section>
             )}
@@ -130,4 +178,9 @@ const buttonStyle = {
     border: 'none',
     borderRadius: '6px',
     cursor: 'pointer'
+}
+
+const messageStyle = {
+    color: 'red',
+    fontWeight: 'bold'
 }

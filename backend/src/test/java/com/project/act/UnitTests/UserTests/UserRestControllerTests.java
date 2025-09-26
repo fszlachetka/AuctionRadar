@@ -2,6 +2,7 @@ package com.project.act.UnitTests.UserTests;
 
 import com.project.act.Controllers.UserRestController;
 import com.project.act.DTOs.UserDTO;
+import com.project.act.DTOs.PasswordChangeDTO;
 import com.project.act.Services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,22 @@ public class UserRestControllerTests {
         verify(userService, times(1)).deleteUser(userDTO.getLogin());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
+    @Test
+    void testChangePasswordEndpoint() {
+        PasswordChangeDTO dto = new PasswordChangeDTO("nieistnieje", "brożek", "noweHaslo");
+        dto.setLogin(userDTO.getLogin());
+        dto.setOldPassword("brożek");
+        dto.setNewPassword("noweHaslo");
+
+        doNothing().when(userService).changePassword(dto);
+
+        ResponseEntity<Object> response = userRestController.changePassword(dto);
+
+        verify(userService, times(1)).changePassword(dto);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Password changed successfully", response.getBody());
+    }
+
 
 }

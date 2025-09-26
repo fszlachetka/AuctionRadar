@@ -1,6 +1,7 @@
 package com.project.act.UnitTests.UserTests;
 
 import com.project.act.DTOs.UserDTO;
+import com.project.act.DTOs.PasswordChangeDTO;
 import com.project.act.Entities.User;
 import com.project.act.Exceptions.UserAlreadyExistsException;
 import com.project.act.Exceptions.UserNotFoundException;
@@ -84,5 +85,48 @@ public class UserServiceTests {
         when(userRepository.existsByLogin(user.getLogin())).thenReturn(false);
         assertThrows(UserNotFoundException.class, () -> userService.deleteUser(user.getLogin()));
     }
+
+    @Test
+    void testChangePasswordSuccess() {
+        PasswordChangeDTO dto = new PasswordChangeDTO(user.getLogin(), "stareHaslo", "noweHaslo");
+
+        User mockUser = new User();
+        mockUser.setLogin(user.getLogin());
+        mockUser.setPasswd("encodedStareHaslo");
+
+        when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(mockUser));
+        when(passwordEncoder.matches("stareHaslo", "encodedStareHaslo")).thenReturn(true);
+        when(passwordEncoder.encode("noweHaslo")).thenReturn("encodedNoweHaslo");
+
+        userService.changePassword(dto);
+
+        verify(userRepository, times(1)).findByLogin(user.getLogin());
+        verify(passwordEncoder, times(1)).matches("stareHaslo", "encodedStareHaslo");
+        verify(passwordEncoder, times(1)).encode("noweHaslo");
+        verify(userRepository, times(1)).save(mockUser);
+
+        assertEquals("encodedNoweHaslo", mockUser.getPasswd());
+    }
+
+
+    @Test
+    void testChangePasswordUserNotFound() {
+        PasswordChangeDTO dto = new PasswordChangeDTO("nie_istnieje", "brożek", "noweHaslo");
+
+        when(userRepository.findByLogin("nie_istnieje")).thenReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> userService.changePassword(dto));
+    }
+
+    @Test
+    void testChangePasswordWrongOldPassword() {
+        PasswordChangeDTO dto = new PasswordChangeDTO(user.getLogin(), "zleHaslo", "noweHaslo");
+
+        when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("zleHaslo", user.getPasswd())).thenReturn(false);
+
+        assertThrows(RuntimeException.class, () -> userService.changePassword(dto));
+    }
+
 
 }

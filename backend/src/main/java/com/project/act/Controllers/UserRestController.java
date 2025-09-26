@@ -1,6 +1,7 @@
 package com.project.act.Controllers;
 
 import com.project.act.DTOs.UserDTO;
+import com.project.act.DTOs.PasswordChangeDTO;
 import com.project.act.Services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,11 @@ public class UserRestController {
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserDTO userDTO){
         userService.addUser(userDTO);
         return new ResponseEntity<>("added succesfully", HttpStatus.OK);
+    }
+    @PostMapping("/user/change-password")
+    public ResponseEntity<Object> changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO) {
+        userService.changePassword(passwordChangeDTO);
+        return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
     }
 
 
