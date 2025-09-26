@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import openai
 from urllib.parse import urljoin
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import os
 from ScrapData.sources import urls, prompt_template
 from dotenv import load_dotenv

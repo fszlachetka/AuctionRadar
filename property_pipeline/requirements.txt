@@ -10,5 +10,5 @@ requests
 beautifulsoup4
 openai
 python-dotenv
-PyPDF2
+pypdf
 pydantic>=2.0.0
